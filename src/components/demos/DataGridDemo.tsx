@@ -78,7 +78,7 @@ class ProductService {
     
     return { 
       data: paginatedData,
-      count: paginatedData.length,
+      count: filteredData.length,
       error: null
     };
   }
@@ -144,7 +144,7 @@ export function DataGridDemo() {
               repository={productService}
               columnDefs={columnDefs}
               getRowId={(product) => product.id}
-              onSelectionChanged={handleSelectionChange}
+              onSelectedRowsChange={handleSelectionChange} 
             />
           </div>
         </div>

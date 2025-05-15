@@ -135,7 +135,6 @@ export function LazyLoadListDemo() {
         <div className="border rounded-md h-96 overflow-hidden bg-background">
           <LazyLoadList<User>
             repository={userService}
-            searchField="name"
             getItemId={(user) => user.id}
             placeholder="Search users..."
             displayProperty="name"
