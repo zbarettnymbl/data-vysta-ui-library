@@ -1,76 +1,40 @@
 
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Progress } from "@/components/ui/progress";
+import React from "react";
+import { FileUpload } from "@datavysta/vysta-react";
 import DemoWrapper from "@/components/DemoWrapper";
+import { useVystaClient } from "@/lib/vysta-mocks";
 
 export function FileUploadDemo() {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [isUploading, setIsUploading] = useState(false);
+  const { services } = useVystaClient();
   
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setSelectedFile(e.target.files[0]);
-      setUploadProgress(0);
-    }
-  };
+  // Mock file service from the services available in the client
+  const fileService = services.find(service => service.id === '4');
   
-  const simulateUpload = () => {
-    if (!selectedFile) return;
-    
-    setIsUploading(true);
-    setUploadProgress(0);
-    
-    const interval = setInterval(() => {
-      setUploadProgress((prev) => {
-        const newProgress = prev + Math.random() * 20;
-        if (newProgress >= 100) {
-          clearInterval(interval);
-          setIsUploading(false);
-          return 100;
-        }
-        return newProgress;
-      });
-    }, 500);
+  const handleUploadSuccess = (fileId: string, fileName: string) => {
+    console.log(`File uploaded successfully: ${fileName} with ID: ${fileId}`);
   };
   
   return (
-    <DemoWrapper title="File Upload" description="Handle file uploads with progress tracking">
+    <DemoWrapper title="File Upload" description="Handle file uploads with Vysta File Service integration">
       <div className="space-y-6">
         <div className="text-foreground">
           <h3 className="text-xl font-medium">Upload Files</h3>
           <p className="text-muted-foreground mt-2">
-            Select files to upload to your account.
+            Upload files to Vysta's file service with support for drag and drop, file type restrictions, and progress tracking.
           </p>
         </div>
         
         <div className="space-y-4">
-          <Input
-            type="file"
-            onChange={handleFileChange}
-            accept="image/*,application/pdf"
-          />
-          
-          {selectedFile && (
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-foreground">{selectedFile.name}</span>
-                <span className="text-xs text-muted-foreground">{Math.round(selectedFile.size / 1024)} KB</span>
-              </div>
-              
-              <Progress value={uploadProgress} className="h-2" />
-              
-              <div className="flex justify-end">
-                <Button 
-                  onClick={simulateUpload} 
-                  disabled={isUploading}
-                  size="sm"
-                >
-                  {isUploading ? 'Uploading...' : 'Upload File'}
-                </Button>
-              </div>
+          {fileService ? (
+            <FileUpload
+              fileService={fileService}
+              allowedFileTypes={['.jpg', '.png', '.pdf', 'image/*', 'application/pdf']}
+              autoProceed={false}
+              onUploadSuccess={handleUploadSuccess}
+            />
+          ) : (
+            <div className="p-4 border border-yellow-200 bg-yellow-50 text-yellow-800 rounded-md">
+              <p>File service not available. This is a demo environment. In a real application, you would provide a VystaFileService instance.</p>
             </div>
           )}
         </div>
