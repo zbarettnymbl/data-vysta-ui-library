@@ -1,47 +1,33 @@
-
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Check, Copy } from "lucide-react";
+import { useEffect, useRef } from "react";
+import Prism from "prismjs";
+import 'prismjs/components/prism-typescript';
+import 'prismjs/themes/prism-tomorrow.css';
 
 interface CodeBlockProps {
   code: string;
-  language: string;
+  language?: string;
 }
 
-export function CodeBlock({ code, language }: CodeBlockProps) {
-  const [copied, setCopied] = useState(false);
+const CodeBlock = ({ code, language = "tsx" }: CodeBlockProps) => {
+  const preRef = useRef<HTMLPreElement>(null);
 
-  const copyToClipboard = async () => {
-    try {
-      await navigator.clipboard.writeText(code);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error("Failed to copy text: ", err);
+  useEffect(() => {
+    if (preRef.current) {
+      Prism.highlightElement(preRef.current);
     }
-  };
+  }, [code, language]);
 
   return (
-    <div className="relative rounded-md bg-muted">
-      <div className="flex items-center justify-between px-4 py-2 border-b">
-        <div className="text-sm text-muted-foreground">{language}</div>
-        <Button variant="ghost" size="sm" onClick={copyToClipboard} className="h-8 gap-1">
-          {copied ? (
-            <>
-              <Check className="h-4 w-4" />
-              <span>Copied</span>
-            </>
-          ) : (
-            <>
-              <Copy className="h-4 w-4" />
-              <span>Copy</span>
-            </>
-          )}
-        </Button>
-      </div>
-      <pre className="p-4 overflow-x-auto text-sm">
-        <code className="text-foreground">{code}</code>
+    <div className="relative">
+      <pre
+        ref={preRef}
+        className="p-4 rounded-md bg-muted overflow-x-auto text-sm"
+        style={{ maxHeight: "500px" }}
+      >
+        <code className={`language-${language}`}>{code}</code>
       </pre>
     </div>
   );
-}
+};
+
+export default CodeBlock;
