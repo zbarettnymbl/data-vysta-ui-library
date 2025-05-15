@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { LazyLoadList } from "@datavysta/vysta-react/mantine";
+import { LazyLoadList } from "@datavysta/vysta-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useVystaClient } from "@datavysta/vysta-react";
