@@ -113,11 +113,8 @@ export function DataGridDemo() {
     { field: 'stock' as keyof Product, headerName: 'Stock', width: 80 }
   ];
 
-  const handleSelectionChange = (newSelection: any) => {
-    if (newSelection && newSelection.api) {
-      const selectedRows = newSelection.api.getSelectedRows();
-      setSelectedItems(selectedRows.map((row: Product) => row.id));
-    }
+  const handleSelectionChange = (selectedRows: Product[]) => {
+    setSelectedItems(selectedRows.map((row: Product) => row.id));
   };
 
   return (
@@ -147,7 +144,7 @@ export function DataGridDemo() {
               repository={productService}
               columnDefs={columnDefs}
               getRowId={(product) => product.id}
-              onRowSelected={handleSelectionChange}
+              onSelectionChanged={handleSelectionChange}
             />
           </div>
         </div>

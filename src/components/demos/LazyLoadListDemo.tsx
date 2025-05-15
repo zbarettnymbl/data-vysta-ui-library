@@ -121,30 +121,6 @@ export function LazyLoadListDemo() {
   
   // Create a memoized instance of our service
   const userService = useMemo(() => new UserService(), []);
-
-  // Custom item renderer
-  const renderUserItem = (user: User) => (
-    <div className="flex items-center justify-between p-3">
-      <div className="flex items-center gap-3">
-        <Avatar>
-          <AvatarImage src={user.avatar} alt={user.name} />
-          <AvatarFallback>{user.name.substring(0, 2)}</AvatarFallback>
-        </Avatar>
-        <div>
-          <div className="font-medium text-foreground">{user.name}</div>
-          <div className="text-sm text-muted-foreground">{user.email}</div>
-        </div>
-      </div>
-      <Badge 
-        variant={
-          user.status === "active" ? "default" : 
-          user.status === "away" ? "outline" : "secondary"
-        }
-      >
-        {user.status}
-      </Badge>
-    </div>
-  );
   
   return (
     <DemoWrapper title="LazyLoadList" description="Efficient loading of large lists">
@@ -159,10 +135,11 @@ export function LazyLoadListDemo() {
         <div className="border rounded-md h-96 overflow-hidden bg-background">
           <LazyLoadList<User>
             repository={userService}
-            renderItem={renderUserItem}
             searchField="name"
             getItemId={(user) => user.id}
             placeholder="Search users..."
+            displayProperty="name"
+            onChange={(user) => setSelectedUser(user)}
           />
         </div>
       </div>
