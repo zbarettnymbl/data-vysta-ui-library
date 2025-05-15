@@ -100,7 +100,7 @@ function App() {
               
               {appliedConditions.map((condition, index) => (
                 <Badge key={index} variant="outline" className="flex items-center gap-1">
-                  <span>{condition.field}: {condition.operator} {JSON.stringify(condition.values)}</span>
+                  <span>{condition.columnName}: {condition.comparisonOperator} {JSON.stringify(condition.values)}</span>
                   <Button 
                     variant="ghost" 
                     size="sm" 
