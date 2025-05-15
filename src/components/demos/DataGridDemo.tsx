@@ -30,9 +30,8 @@ class ProductService {
   async getAll(): Promise<DataResult<Product>> {
     return { 
       data: this.data, 
-      total: this.data.length,
       count: this.data.length,
-      error: null // Changed from undefined to null to match the interface
+      error: null
     };
   }
 
@@ -79,16 +78,15 @@ class ProductService {
     
     return { 
       data: paginatedData,
-      total: filteredData.length,
       count: paginatedData.length,
-      error: null // Changed from undefined to null to match the interface
+      error: null
     };
   }
 
-  // Updated download method
-  async download() {
+  // Updated download method to return a Blob directly
+  async download(): Promise<Blob> {
     // Mock implementation
-    return { data: new Blob(['mock data'], { type: 'text/plain' }), filename: 'products.csv' };
+    return new Blob(['mock data'], { type: 'text/plain' });
   }
 }
 

@@ -35,7 +35,6 @@ class UserService {
     const items = this.generateItems(0, 50);
     return { 
       data: items, 
-      total: items.length, 
       count: items.length, 
       error: null 
     };
@@ -60,7 +59,6 @@ class UserService {
     
     return {
       data: paginatedItems,
-      total: filteredItems.length,
       count: paginatedItems.length,
       error: null
     };
@@ -106,16 +104,15 @@ class UserService {
     
     return { 
       data: paginatedItems,
-      total: filteredItems.length,
-      count: paginatedItems.length,
+      count: filteredItems.length,
       error: null
     };
   }
 
   // Required method for IReadonlyDataService
-  async download() {
+  async download(): Promise<Blob> {
     // Mock implementation
-    return { data: new Blob(['mock data'], { type: 'text/plain' }), filename: 'users.csv' };
+    return new Blob(['mock data'], { type: 'text/plain' });
   }
 }
 
