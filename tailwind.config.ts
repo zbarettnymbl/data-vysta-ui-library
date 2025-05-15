@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -19,6 +20,11 @@ export default {
 		},
 		extend: {
 			colors: {
+				// DataVysta brand colors
+				"brand-blue": "#2B90FF",
+				"brand-teal": "#0BCBC0",
+				"brand-navy": "#101C60",
+
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',

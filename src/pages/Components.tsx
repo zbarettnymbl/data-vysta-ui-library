@@ -12,6 +12,7 @@ import {
   SidebarGroupLabel,
   SidebarInset,
   SidebarTrigger,
+  SidebarFooter,
 } from "@/components/ui/sidebar";
 import { Database, Grid, Filter, List, Upload, Shield } from "lucide-react";
 import { DataGridDemo } from "@/components/demos/DataGridDemo";
@@ -19,6 +20,8 @@ import { FilterPanelDemo } from "@/components/demos/FilterPanelDemo";
 import { LazyLoadListDemo } from "@/components/demos/LazyLoadListDemo";
 import { FileUploadDemo } from "@/components/demos/FileUploadDemo";
 import { ServiceProviderDemo } from "@/components/demos/ServiceProviderDemo";
+import Logo from "@/components/Logo";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
 
 const Components = () => {
   const [activeComponent, setActiveComponent] = useState("datagrid");
@@ -28,7 +31,7 @@ const Components = () => {
       <div className="flex min-h-screen w-full">
         <Sidebar>
           <SidebarHeader className="flex h-14 items-center border-b px-4">
-            <h1 className="text-lg font-semibold">Vysta UI Library</h1>
+            <Logo />
           </SidebarHeader>
           <SidebarContent>
             <SidebarGroup>
@@ -82,6 +85,9 @@ const Components = () => {
               </SidebarMenu>
             </SidebarGroup>
           </SidebarContent>
+          <SidebarFooter className="border-t p-4">
+            <ThemeSwitcher />
+          </SidebarFooter>
         </Sidebar>
         
         <SidebarInset>
