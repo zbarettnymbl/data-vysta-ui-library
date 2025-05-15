@@ -1,11 +1,18 @@
 
 import React from "react";
+import { useTheme } from "@/hooks/use-theme";
 
 export default function Logo({ className }: { className?: string }) {
+  const { theme } = useTheme();
+  
   return (
     <div className={`flex items-center ${className}`}>
       <img 
-        src="/lovable-uploads/ba375976-144f-42f5-bd4f-73e04b2f6bdd.png" 
+        src={
+          theme === "dark" 
+            ? "/lovable-uploads/ce0a3825-0fb0-4837-b52a-c4cc37361cb7.png" 
+            : "/lovable-uploads/ba375976-144f-42f5-bd4f-73e04b2f6bdd.png"
+        } 
         alt="DataVysta Logo" 
         className="h-8" 
       />
