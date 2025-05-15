@@ -1,231 +1,178 @@
 
-import { useMemo, useState } from "react";
-import { LazyLoadList } from "@datavysta/vysta-react";
-import { VystaClient, VystaService } from "@datavysta/vysta-client";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import CodeBlock from "../CodeBlock";
+import React, { useState } from "react";
+import { LazyLoadList } from "@datavysta/vysta-react/mantine";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+import { useVystaClient } from "@datavysta/vysta-react";
 
-// Define product type
-interface Product {
-  productId: number;
-  productName: string;
-  categoryName: string;
-}
+// Define Product type
+type Product = {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  inStock: boolean;
+};
 
-// Mock service for demo purposes
-class MockProductService extends VystaService<Product> {
-  private products: Product[] = [
-    { productId: 1, productName: "Chai", categoryName: "Beverages" },
-    { productId: 2, productName: "Chang", categoryName: "Beverages" },
-    { productId: 3, productName: "Aniseed Syrup", categoryName: "Condiments" },
-    { productId: 4, productName: "Chef Anton's Cajun Seasoning", categoryName: "Condiments" },
-    { productId: 5, productName: "Chef Anton's Gumbo Mix", categoryName: "Condiments" },
-    { productId: 6, productName: "Grandma's Boysenberry Spread", categoryName: "Condiments" },
-    { productId: 7, productName: "Uncle Bob's Organic Dried Pears", categoryName: "Produce" },
-    { productId: 8, productName: "Northwoods Cranberry Sauce", categoryName: "Condiments" },
-    { productId: 9, productName: "Mishi Kobe Niku", categoryName: "Meat/Poultry" },
-    { productId: 10, productName: "Ikura", categoryName: "Seafood" },
-    { productId: 11, productName: "Queso Cabrales", categoryName: "Dairy Products" },
-    { productId: 12, productName: "Queso Manchego La Pastora", categoryName: "Dairy Products" },
-  ];
-
-  constructor(client: VystaClient) {
-    super(client, "MockDb", "Products", { primaryKey: "productId" });
-  }
-
-  async getPage(params: any): Promise<{ items: Product[]; totalCount: number }> {
-    let filteredProducts = [...this.products];
-    
-    // Handle search term if provided
-    if (params.q) {
-      const searchTerm = params.q.toLowerCase();
-      filteredProducts = filteredProducts.filter(
-        p => p.productName.toLowerCase().includes(searchTerm)
-      );
+export function LazyLoadListDemo() {
+  const { toast } = useToast();
+  const client = useVystaClient();
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  
+  // Mock data for the LazyLoadList
+  const mockProducts: Product[] = [
+    {
+      id: "1",
+      name: "Ergonomic Chair",
+      description: "Office chair with lumbar support",
+      price: 249.99,
+      category: "Furniture",
+      inStock: true
+    },
+    {
+      id: "2",
+      name: "Mechanical Keyboard",
+      description: "RGB backlit mechanical keyboard",
+      price: 129.99,
+      category: "Electronics",
+      inStock: true
+    },
+    {
+      id: "3",
+      name: "Ultra-wide Monitor",
+      description: "34-inch curved ultrawide display",
+      price: 499.99,
+      category: "Electronics",
+      inStock: false
+    },
+    {
+      id: "4",
+      name: "Standing Desk",
+      description: "Motorized adjustable height desk",
+      price: 399.99,
+      category: "Furniture",
+      inStock: true
+    },
+    {
+      id: "5",
+      name: "Wireless Mouse",
+      description: "Ergonomic wireless mouse",
+      price: 49.99,
+      category: "Electronics",
+      inStock: true
+    },
+    {
+      id: "6",
+      name: "Laptop Stand",
+      description: "Adjustable aluminum laptop stand",
+      price: 39.99,
+      category: "Accessories",
+      inStock: true
+    },
+    {
+      id: "7",
+      name: "USB-C Hub",
+      description: "7-in-1 USB-C adapter",
+      price: 59.99,
+      category: "Electronics",
+      inStock: false
+    },
+    {
+      id: "8",
+      name: "Wireless Headphones",
+      description: "Noise-cancelling Bluetooth headphones",
+      price: 199.99,
+      category: "Audio",
+      inStock: true
+    },
+    {
+      id: "9",
+      name: "Desk Lamp",
+      description: "LED desk lamp with adjustable brightness",
+      price: 34.99,
+      category: "Lighting",
+      inStock: true
+    },
+    {
+      id: "10",
+      name: "External SSD",
+      description: "1TB portable solid state drive",
+      price: 149.99,
+      category: "Storage",
+      inStock: true
+    },
+    {
+      id: "11",
+      name: "Notebook",
+      description: "Hardcover ruled notebook",
+      price: 12.99,
+      category: "Stationery",
+      inStock: true
+    },
+    {
+      id: "12",
+      name: "Desk Mat",
+      description: "Large desk pad/mouse mat",
+      price: 24.99,
+      category: "Accessories",
+      inStock: true
     }
-    
-    // Handle filters if provided
-    if (params.filters?.categoryName?.eq) {
-      filteredProducts = filteredProducts.filter(
-        p => p.categoryName === params.filters.categoryName.eq
-      );
-    }
-    
-    return { 
-      items: filteredProducts.slice(0, params.pageSize || 10),
-      totalCount: filteredProducts.length 
-    };
-  }
-  
-  async getById(id: string): Promise<Product | null> {
-    const product = this.products.find(p => p.productId.toString() === id);
-    return product || null;
-  }
-}
-
-export const LazyLoadListDemo = () => {
-  const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  
-  // Create a mocked service for demo purposes
-  const productService = useMemo(() => {
-    const client = new VystaClient({ baseUrl: "http://localhost:8080" });
-    return new MockProductService(client);
-  }, []);
-  
-  // Create filters based on selected category
-  const filters = useMemo(() => {
-    if (!selectedCategory) return undefined;
-    return { categoryName: { eq: selectedCategory } };
-  }, [selectedCategory]);
-
-  const code = `import { LazyLoadList } from '@datavysta/vysta-react';
-import { VystaClient, VystaService } from '@datavysta/vysta-client';
-import { useMemo, useState } from 'react';
-
-// Define your entity type
-interface Product {
-  productId: number;
-  productName: string;
-  categoryName: string;
-}
-
-// Create your service
-class ProductService extends VystaService<Product> {
-  constructor(client: VystaClient) {
-    super(client, 'Northwinds', 'Products', {
-      primaryKey: 'productId'
-    });
-  }
-}
-
-function ProductSelector() {
-  const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  
-  const productService = useMemo(() => {
-    const client = new VystaClient({ baseUrl: 'http://localhost:8080' });
-    return new ProductService(client);
-  }, []);
-  
-  // Create filters based on selected category
-  const filters = useMemo(() => {
-    if (!selectedCategory) return undefined;
-    return { categoryName: { eq: selectedCategory } };
-  }, [selectedCategory]);
-
-  return (
-    <LazyLoadList<Product>
-      repository={productService}
-      value={selectedProductId}
-      onChange={setSelectedProductId}
-      label="Select Product"
-      displayColumn="productName"
-      clearable
-      filters={filters}
-      groupBy="categoryName"
-    />
-  );
-}`;
-
-  // List of categories for the demo
-  const categories = [
-    "Beverages", 
-    "Condiments", 
-    "Confections", 
-    "Dairy Products", 
-    "Grains/Cereals", 
-    "Meat/Poultry", 
-    "Produce", 
-    "Seafood"
   ];
 
   return (
     <div className="space-y-8">
       <div>
         <h1 className="mb-2 text-3xl font-bold">LazyLoadList</h1>
-        <p className="text-lg text-muted-foreground">
-          A searchable, lazy-loading dropdown list component for efficiently loading data from a Vysta service.
-        </p>
+        <p className="text-lg text-muted-foreground">A searchable, lazy-loading dropdown list component for efficiently loading data from a Vysta service.</p>
       </div>
-      
-      <Tabs defaultValue="preview">
-        <TabsList>
-          <TabsTrigger value="preview">Preview</TabsTrigger>
-          <TabsTrigger value="code">Code</TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="preview" className="mt-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>LazyLoadList Demo</CardTitle>
-              <CardDescription>
-                A dropdown with searchable, lazy-loaded products that can be filtered by category
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div>
-                <h3 className="font-medium mb-2">Filter by Category:</h3>
-                <select
-                  className="w-full p-2 border rounded-md"
-                  value={selectedCategory || ""}
-                  onChange={(e) => setSelectedCategory(e.target.value || null)}
-                >
-                  <option value="">All Categories</option>
-                  {categories.map(category => (
-                    <option key={category} value={category}>{category}</option>
-                  ))}
-                </select>
-              </div>
-              
-              <div>
-                <h3 className="font-medium mb-2">Select Product:</h3>
-                <LazyLoadList<Product>
-                  repository={productService}
-                  value={selectedProductId}
-                  onChange={setSelectedProductId}
-                  label="Select Product"
-                  displayColumn="productName"
-                  clearable
-                  filters={filters}
-                  groupBy="categoryName"
-                />
-              </div>
-              
-              {selectedProductId && (
-                <div className="mt-4 p-4 bg-muted rounded-md">
-                  <p>Selected Product ID: <strong>{selectedProductId}</strong></p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="code" className="mt-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>LazyLoadList Implementation</CardTitle>
-              <CardDescription>Example code for implementing LazyLoadList component</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <CodeBlock code={code} language="tsx" />
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
-      
+
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold">Key Features</h2>
-        <ul className="list-disc pl-6 space-y-2">
-          <li>Lazy loading with infinite scroll</li>
-          <li>Built-in search functionality</li>
-          <li>Optional grouping of items</li>
-          <li>Efficient loading of selected values</li>
-          <li>Support for filtering</li>
-          <li>Full TypeScript support</li>
-        </ul>
+        <div className="max-w-md">
+          <h2 className="mb-2 text-xl font-semibold">Basic Usage</h2>
+          <LazyLoadList<Product> 
+            searchable
+            label="Select a product"
+            placeholder="Search products..."
+            displayProperty="name"
+            onChange={(product) => {
+              setSelectedProduct(product);
+              toast({
+                title: "Selected Product",
+                description: `You selected: ${product?.name || "None"}`,
+              });
+            }}
+            fetchFn={async (search = "") => {
+              // In a real application, this would call a Vysta service
+              console.log(`Searching for: ${search}`);
+              
+              // Simulate API request delay
+              await new Promise(resolve => setTimeout(resolve, 500));
+              
+              // Filter products based on search term
+              return mockProducts.filter(product => 
+                product.name.toLowerCase().includes(search.toLowerCase()) ||
+                product.description.toLowerCase().includes(search.toLowerCase())
+              );
+            }}
+          />
+        </div>
+        
+        <div className="mt-4">
+          {selectedProduct && (
+            <div className="rounded-lg border p-4">
+              <h3 className="font-medium">{selectedProduct.name}</h3>
+              <p className="text-sm text-muted-foreground">{selectedProduct.description}</p>
+              <div className="mt-2 flex items-center justify-between">
+                <span className="font-medium">${selectedProduct.price.toFixed(2)}</span>
+                <span className={`text-sm ${selectedProduct.inStock ? 'text-green-500' : 'text-red-500'}`}>
+                  {selectedProduct.inStock ? 'In Stock' : 'Out of Stock'}
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
-};
+}
