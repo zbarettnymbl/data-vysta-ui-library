@@ -1,6 +1,6 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import CodeBlock from "@/components/CodeBlock";
+import CodeToggle from "@/components/CodeToggle";
 
 const AvatarDemo = () => {
   const codeExample = `import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -40,7 +40,7 @@ const AvatarDemo = () => {
         </div>
       </div>
       
-      <CodeBlock code={codeExample} language="tsx" />
+      <CodeToggle code={codeExample} language="tsx" />
     </div>
   );
 };

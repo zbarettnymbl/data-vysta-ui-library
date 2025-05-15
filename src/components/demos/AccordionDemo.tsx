@@ -1,6 +1,6 @@
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import CodeBlock from "@/components/CodeBlock";
+import CodeToggle from "@/components/CodeToggle";
 
 const AccordionDemo = () => {
   const codeExample = `import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
@@ -41,7 +41,7 @@ const AccordionDemo = () => {
         </Accordion>
       </div>
       
-      <CodeBlock code={codeExample} language="tsx" />
+      <CodeToggle code={codeExample} language="tsx" />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import CodeBlock from "@/components/CodeBlock";
+import CodeToggle from "@/components/CodeToggle";
 
 const TableDemo = () => {
   const invoices = [
@@ -86,7 +86,7 @@ const TableDemo = () => {
         </Table>
       </div>
       
-      <CodeBlock code={codeExample} language="tsx" />
+      <CodeToggle code={codeExample} language="tsx" />
     </div>
   );
 };

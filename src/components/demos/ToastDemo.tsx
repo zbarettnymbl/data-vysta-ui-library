@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
-import CodeBlock from "@/components/CodeBlock";
+import CodeToggle from "@/components/CodeToggle";
 
 const ToastDemo = () => {
   const codeExample = `import { Button } from "@/components/ui/button"
@@ -80,7 +80,7 @@ import { toast } from "@/hooks/use-toast"
         </div>
       </div>
       
-      <CodeBlock code={codeExample} language="tsx" />
+      <CodeToggle code={codeExample} language="tsx" />
     </div>
   );
 };

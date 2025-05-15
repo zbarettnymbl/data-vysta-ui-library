@@ -3,9 +3,34 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useVystaClient } from "@/lib/vysta-mocks";
 import DemoWrapper from "@/components/DemoWrapper";
+import CodeToggle from "@/components/CodeToggle";
 
 export function ServiceProviderDemo() {
   const { isInitialized, services } = useVystaClient();
+  
+  const codeExample = `import { useVystaClient } from "@datavysta/vysta-react";
+
+// Initialize the Vysta client hook
+function MyComponent() {
+  const { 
+    isInitialized, // boolean indicating if the client is connected
+    services       // array of available services
+  } = useVystaClient();
+
+  return (
+    <div>
+      <div>Status: {isInitialized ? 'Connected' : 'Disconnected'}</div>
+      <div>
+        <h3>Available Services:</h3>
+        <ul>
+          {services.map((service) => (
+            <li key={service.id}>{service.name}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}`;
 
   return (
     <DemoWrapper title="Service Provider" description="Integration with backend services">
@@ -48,6 +73,8 @@ export function ServiceProviderDemo() {
             </CardContent>
           </Card>
         </div>
+        
+        <CodeToggle code={codeExample} language="tsx" />
       </div>
     </DemoWrapper>
   );

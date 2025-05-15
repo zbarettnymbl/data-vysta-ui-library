@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import CodeBlock from "@/components/CodeBlock";
+import CodeToggle from "@/components/CodeToggle";
 
 const CardDemo = () => {
   const codeExample = `import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -59,7 +59,7 @@ import { Button } from "@/components/ui/button"
         </div>
       </div>
       
-      <CodeBlock code={codeExample} language="tsx" />
+      <CodeToggle code={codeExample} language="tsx" />
     </div>
   );
 };

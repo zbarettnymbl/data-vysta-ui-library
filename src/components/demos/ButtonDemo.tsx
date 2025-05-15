@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import CodeBlock from "@/components/CodeBlock";
+import CodeToggle from "@/components/CodeToggle";
 
 const ButtonDemo = () => {
   const codeExample = `import { Button } from "@/components/ui/button"
@@ -48,7 +48,7 @@ const ButtonDemo = () => {
         </div>
       </div>
       
-      <CodeBlock code={codeExample} language="tsx" />
+      <CodeToggle code={codeExample} language="tsx" />
     </div>
   );
 };
