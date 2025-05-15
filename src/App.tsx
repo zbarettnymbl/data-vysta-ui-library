@@ -1,37 +1,39 @@
-
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider, useTheme } from "@/hooks/use-theme";
+import { VystaMantineComponentProvider } from "@datavysta/vysta-react/mantine";
+import { MantineProvider } from "@mantine/core";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { MantineProvider } from '@mantine/core';
-import { VystaMantineComponentProvider } from '@datavysta/vysta-react/mantine';
-import { ThemeProvider } from "@/hooks/use-theme";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+
+// Import styles for Mantine notifications
+import "@mantine/notifications/styles.css";
 
 import Components from "./pages/Components";
-import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
+
+// Wrapper component to use the theme hook
+const ThemeWrapper = ({ children }: { children: React.ReactNode }) => {
+  const { mantineTheme } = useTheme();
+
+  return (
+    <MantineProvider theme={mantineTheme}>
+      <VystaMantineComponentProvider>{children}</VystaMantineComponentProvider>
+    </MantineProvider>
+  );
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider defaultTheme="light">
-      <MantineProvider>
-        <VystaMantineComponentProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Navigate to="/components" replace />} />
-                <Route path="/components" element={<Components />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </BrowserRouter>
-          </TooltipProvider>
-        </VystaMantineComponentProvider>
-      </MantineProvider>
+      <ThemeWrapper>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Navigate to="/components" replace />} />
+            <Route path="/components" element={<Components />} />
+            <Route path="*" element={<Navigate to="/components" replace />} />
+          </Routes>
+        </BrowserRouter>
+      </ThemeWrapper>
     </ThemeProvider>
   </QueryClientProvider>
 );

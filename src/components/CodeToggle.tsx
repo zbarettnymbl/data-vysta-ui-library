@@ -1,8 +1,7 @@
-
-import React, { useState } from 'react';
-import { Button } from "@/components/ui/button";
-import { Code } from "lucide-react";
 import CodeBlock from "@/components/CodeBlock";
+import { Button } from "@mantine/core";
+import { Code } from "lucide-react";
+import { useState } from "react";
 
 interface CodeToggleProps {
   code: string;
@@ -15,9 +14,9 @@ const CodeToggle = ({ code, language }: CodeToggleProps) => {
   return (
     <div className="space-y-4">
       <div className="flex justify-end">
-        <Button 
-          variant="outline" 
-          size="sm" 
+        <Button
+          variant="outline"
+          size="sm"
           onClick={() => setShowCode(!showCode)}
           className="flex items-center gap-2"
         >
@@ -25,10 +24,8 @@ const CodeToggle = ({ code, language }: CodeToggleProps) => {
           {showCode ? "Hide Code" : "Show Code"}
         </Button>
       </div>
-      
-      {showCode && (
-        <CodeBlock code={code} language={language} />
-      )}
+
+      {showCode && <CodeBlock code={code} language={language} />}
     </div>
   );
 };

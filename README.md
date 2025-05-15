@@ -1,73 +1,81 @@
-# Welcome to your Lovable project
+# Vysta UI Supabase Clone
 
-## Project info
+A modern UI component library built with React, TypeScript, and Tailwind CSS.
 
-**URL**: https://lovable.dev/projects/85f472b8-d9a3-46f1-ad7a-e6c94ffee4ad
+## Project Overview
 
-## How can I edit this code?
+This project is a component library that provides ready-to-use UI components for building beautiful and functional web applications.
 
-There are several ways of editing your application.
+## Table of Contents
 
-**Use Lovable**
+- [Technologies](#technologies)
+- [Getting Started](#getting-started)
+- [Development Workflow](#development-workflow)
+- [Deployment](#deployment)
+- [Custom Domain Setup](#custom-domain-setup)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/85f472b8-d9a3-46f1-ad7a-e6c94ffee4ad) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
+## Technologies
 
 This project is built with:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- **React** - UI library
+- **TypeScript** - Type-safe JavaScript
+- **Vite** - Fast build tool and dev server
+- **Tailwind CSS** - Utility-first CSS framework
+- **shadcn/ui** - Component library
+- **React Router** - Routing solution
+- **React Query** - Data fetching library
+- **Recharts** - Charting library
+- **Mantine** - Component library and hooks
+- **Zod** - Schema validation
+- **React Hook Form** - Form handling
 
-## How can I deploy this project?
+## Getting Started
 
-Simply open [Lovable](https://lovable.dev/projects/85f472b8-d9a3-46f1-ad7a-e6c94ffee4ad) and click on Share -> Publish.
+### Prerequisites
 
-## Can I connect a custom domain to my Lovable project?
+- Node.js (LTS version recommended)
+- npm or yarn
 
-Yes, you can!
+### Installation
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+There are several ways to work with this codebase:
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+#### 1. Local Development
+
+```bash
+# Clone the repository
+git clone <YOUR_GIT_URL>
+
+# Navigate to the project directory
+cd vysta-ui-library
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+```
+
+#### 2. GitHub Web Editor
+
+- Navigate to the file you want to edit on GitHub
+- Click the "Edit" button (pencil icon)
+- Make your changes and commit them
+
+#### 3. GitHub Codespaces
+
+- Navigate to the main repository page
+- Click the "Code" button and select the "Codespaces" tab
+- Click "New codespace" to launch a development environment
+- Make changes and commit directly from the Codespace
+
+## Development Workflow
+
+### Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run build:dev` - Build for development
+- `npm run lint` - Run ESLint
+- `npm run preview` - Preview production build

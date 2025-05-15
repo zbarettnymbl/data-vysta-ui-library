@@ -1,27 +1,28 @@
-
-import React from "react";
 import { useTheme } from "@/hooks/use-theme";
-import { Button } from "@/components/ui/button";
-import { Sun, Moon } from "lucide-react";
-import { Toggle } from "@/components/ui/toggle";
+import { Group, Switch, useMantineTheme } from "@mantine/core";
+import { Moon, Sun } from "lucide-react";
 
 export default function ThemeSwitcher() {
   const { theme, setTheme } = useTheme();
+  const mantineTheme = useMantineTheme();
 
   return (
-    <div className="flex items-center justify-center">
-      <Toggle
-        aria-label="Toggle dark mode"
-        pressed={theme === "dark"}
-        onPressedChange={(pressed) => setTheme(pressed ? "dark" : "light")}
-      >
-        {theme === "dark" ? (
-          <Sun className="h-4 w-4" />
-        ) : (
-          <Moon className="h-4 w-4" />
-        )}
-        <span className="ml-2 text-xs">{theme === "dark" ? "Light Mode" : "Dark Mode"}</span>
-      </Toggle>
-    </div>
+    <Group justify="center">
+      <Switch
+        size="md"
+        thumbIcon={
+          theme === "dark" ? (
+            <Sun size={12} color={mantineTheme.colors.yellow[4]} />
+          ) : (
+            <Moon size={12} color={mantineTheme.colors.blue[6]} />
+          )
+        }
+        checked={theme === "dark"}
+        onChange={(event) =>
+          setTheme(event.currentTarget.checked ? "dark" : "light")
+        }
+        label={theme === "dark" ? "Light Mode" : "Dark Mode"}
+      />
+    </Group>
   );
 }
