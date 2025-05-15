@@ -1,9 +1,9 @@
+
 import React, { useState, useMemo } from "react";
 import { DataGrid } from "@datavysta/vysta-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import DemoWrapper from "@/components/DemoWrapper";
-import { VystaClient } from "@datavysta/vysta-client";
 import { useVystaClient } from "@/lib/vysta-mocks/useVystaClient";
 
 // Define a proper interface for our product type
@@ -15,7 +15,7 @@ interface Product {
   stock: number;
 }
 
-// Mock VystaService implementation
+// Updated ProductService class that implements all required methods
 class ProductService {
   private data: Product[];
   
@@ -28,16 +28,61 @@ class ProductService {
     return { data: this.data, total: this.data.length };
   }
 
-  // Other required methods for IDataService
   async getById(id: string) {
     const item = this.data.find(item => item.id === id);
-    return item ? { data: item } : { data: null };
+    return { data: item || null };
   }
 
-  // Mock implementations for other methods
-  async create() { return { success: true, data: null }; }
-  async update() { return { success: true, data: null }; }
-  async delete() { return { success: true, data: null }; }
+  // Required method for IReadonlyDataService
+  async query(options: any = {}) {
+    const { filters, sort, page = 0, pageSize = 20 } = options;
+    
+    // Apply any filters
+    let filteredData = [...this.data];
+    
+    if (filters) {
+      // Simple filtering implementation
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          filteredData = filteredData.filter(item => 
+            String(item[key as keyof Product]).toLowerCase().includes(String(value).toLowerCase())
+          );
+        }
+      });
+    }
+    
+    // Apply sorting
+    if (sort && sort.length > 0) {
+      const { field, sort: direction } = sort[0];
+      filteredData.sort((a, b) => {
+        const aValue = a[field as keyof Product];
+        const bValue = b[field as keyof Product];
+        
+        if (direction === 'asc') {
+          return aValue > bValue ? 1 : -1;
+        } else {
+          return aValue < bValue ? 1 : -1;
+        }
+      });
+    }
+    
+    // Apply pagination
+    const paginatedData = filteredData.slice(page * pageSize, (page + 1) * pageSize);
+    
+    return { 
+      data: paginatedData,
+      total: filteredData.length,
+      page,
+      pageSize,
+      pageCount: Math.ceil(filteredData.length / pageSize)
+    };
+  }
+
+  // Required method for IReadonlyDataService
+  async download() {
+    // Mock implementation
+    return { data: new Blob(['mock data'], { type: 'text/plain' }), filename: 'products.csv' };
+  }
 }
 
 export function DataGridDemo() {
@@ -55,12 +100,12 @@ export function DataGridDemo() {
   // Create a product service instance with our data
   const productService = useMemo(() => new ProductService(data), []);
 
-  // Column definitions - updated to match the DataGrid interface from VystaReact
+  // Updated column definitions to match ColDef<Product, any>
   const columnDefs = [
-    { field: 'name', headerName: 'Name', width: 150 },
-    { field: 'category', headerName: 'Category', width: 120 },
-    { field: 'price', headerName: 'Price', width: 100, valueFormatter: (params: any) => `$${params.value}` },
-    { field: 'stock', headerName: 'Stock', width: 80 }
+    { field: 'name' as const, headerName: 'Name', width: 150 },
+    { field: 'category' as const, headerName: 'Category', width: 120 },
+    { field: 'price' as const, headerName: 'Price', width: 100, valueFormatter: (params: any) => `$${params.value}` },
+    { field: 'stock' as const, headerName: 'Stock', width: 80 }
   ];
 
   const handleSelectionChange = (newSelection: any) => {

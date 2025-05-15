@@ -14,7 +14,7 @@ interface User {
   avatar: string;
 }
 
-// Mock data service for LazyLoadList
+// Updated UserService with all required methods
 class UserService {
   private generateItems = (start: number, end: number) => {
     return Array.from({ length: end - start }, (_, i) => {
@@ -28,6 +28,12 @@ class UserService {
       };
     });
   };
+
+  // Required method for IReadonlyDataService
+  async getAll() {
+    const items = this.generateItems(0, 50);
+    return { data: items, total: items.length };
+  }
 
   async search(term?: string, page: number = 0, pageSize: number = 20) {
     // Simulate network delay
@@ -52,11 +58,57 @@ class UserService {
     };
   }
 
-  // Required methods for a data service
+  // Required method for IReadonlyDataService
   async getById(id: string) {
     const allItems = this.generateItems(0, 50);
     const item = allItems.find(i => i.id === id);
     return { data: item || null };
+  }
+
+  // Required method for IReadonlyDataService
+  async query(options: any = {}) {
+    const { filters, q, page = 0, pageSize = 20 } = options;
+    
+    // Generate mock data
+    const items = this.generateItems(0, 50);
+    
+    // Filter by search term if provided
+    let filteredItems = [...items];
+    
+    if (q) {
+      filteredItems = filteredItems.filter(item => 
+        item.name.toLowerCase().includes(q.toLowerCase()) ||
+        item.email.toLowerCase().includes(q.toLowerCase())
+      );
+    }
+    
+    // Apply any additional filters
+    if (filters) {
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          filteredItems = filteredItems.filter(item => 
+            String(item[key as keyof User]).toLowerCase().includes(String(value).toLowerCase())
+          );
+        }
+      });
+    }
+    
+    // Apply pagination
+    const paginatedItems = filteredItems.slice(page * pageSize, (page + 1) * pageSize);
+    
+    return { 
+      data: paginatedItems,
+      total: filteredItems.length,
+      page,
+      pageSize,
+      pageCount: Math.ceil(filteredItems.length / pageSize)
+    };
+  }
+
+  // Required method for IReadonlyDataService
+  async download() {
+    // Mock implementation
+    return { data: new Blob(['mock data'], { type: 'text/plain' }), filename: 'users.csv' };
   }
 }
 
