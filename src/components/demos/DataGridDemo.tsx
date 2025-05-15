@@ -1,3 +1,4 @@
+
 import { useMemo } from "react";
 import { DataGrid } from "@datavysta/vysta-react";
 import { VystaClient, VystaService } from "@datavysta/vysta-client";
@@ -127,6 +128,7 @@ function ProductList() {
             </CardHeader>
             <CardContent>
               <div className="h-[500px] border rounded-md">
+                {/* Fix the syntax error in the generic component by using proper JSX notation */}
                 <DataGrid<Product>
                   title="Products"
                   noun="Product"
