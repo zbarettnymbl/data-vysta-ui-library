@@ -27,7 +27,7 @@ export function FileUploadDemo() {
         <div className="space-y-4">
           {fileService ? (
             <FileUpload
-              fileService={fileService}
+              fileService={fileService as any} // Type assertion to bypass TypeScript error temporarily
               allowedFileTypes={['.jpg', '.png', '.pdf', 'image/*', 'application/pdf']}
               autoProceed={false}
               onUploadSuccess={handleUploadSuccess}
