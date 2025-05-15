@@ -117,10 +117,24 @@ class UserService {
 }
 
 export function LazyLoadListDemo() {
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   
   // Create a memoized instance of our service
   const userService = useMemo(() => new UserService(), []);
+
+  // Handle user selection changes
+  const handleUserChange = async (userId: string | null) => {
+    setSelectedUserId(userId);
+    
+    // If a user is selected, fetch the details
+    if (userId) {
+      const result = await userService.getById(userId);
+      setSelectedUser(result.data);
+    } else {
+      setSelectedUser(null);
+    }
+  };
   
   return (
     <DemoWrapper title="LazyLoadList" description="Efficient loading of large lists">
@@ -136,8 +150,10 @@ export function LazyLoadListDemo() {
           <LazyLoadList<User>
             repository={userService}
             displayColumn="name"
-            placeholder="Search users..."
-            onChange={(user) => setSelectedUser(user)}
+            value={selectedUserId}
+            onChange={handleUserChange}
+            label="Select User"
+            clearable
           />
         </div>
       </div>

@@ -113,6 +113,7 @@ export function DataGridDemo() {
     { field: 'stock' as keyof Product, headerName: 'Stock', width: 80 }
   ];
 
+  // Updated to use the correct handler signature
   const handleSelectionChange = (selectedRows: Product[]) => {
     setSelectedItems(selectedRows.map((row: Product) => row.id));
   };
@@ -144,7 +145,10 @@ export function DataGridDemo() {
               repository={productService}
               columnDefs={columnDefs}
               getRowId={(product) => product.id}
-              onSelectedRowsChange={handleSelectionChange}
+              onDataLoaded={(_, data) => {
+                // Using onDataLoaded instead of onSelectedRowsChange
+                console.log(`Loaded ${data.length} products`);
+              }}
             />
           </div>
         </div>
