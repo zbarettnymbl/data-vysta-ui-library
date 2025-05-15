@@ -17,12 +17,28 @@ export function DataGridDemo() {
     { id: "5", name: "Product E", category: "Accessories", price: 29.99, stock: 65 },
   ];
 
-  // Column definitions
+  // Column definitions - updated to match the DataGrid interface
   const columns = [
-    { field: "name", headerName: "Name", width: 180 },
-    { field: "category", headerName: "Category", width: 150 },
-    { field: "price", headerName: "Price", width: 120, valueFormatter: (params: any) => `$${params.value}` },
-    { field: "stock", headerName: "Stock", width: 120 }
+    { 
+      id: "name", 
+      header: "Name", 
+      accessor: (item: any) => item.name 
+    },
+    { 
+      id: "category", 
+      header: "Category", 
+      accessor: (item: any) => item.category 
+    },
+    { 
+      id: "price", 
+      header: "Price", 
+      accessor: (item: any) => `$${item.price}` 
+    },
+    { 
+      id: "stock", 
+      header: "Stock", 
+      accessor: (item: any) => item.stock 
+    }
   ];
 
   const handleSelectionChange = (newSelection: string[]) => {

@@ -1,12 +1,14 @@
 
-import React from "react";
-import { LazyLoadList } from "@/lib/vysta-mocks";
+import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import DemoWrapper from "@/components/DemoWrapper";
+import { LazyLoadList } from "@/lib/vysta-mocks";
 
 export function LazyLoadListDemo() {
-  // Sample data generator
+  const [selectedItem, setSelectedItem] = useState<any>(null);
+
+  // Sample data generator function
   const generateItems = (start: number, end: number) => {
     return Array.from({ length: end - start }, (_, i) => {
       const id = start + i;
@@ -20,7 +22,7 @@ export function LazyLoadListDemo() {
     });
   };
   
-  const renderItem = (item: any) => (
+  const renderUserItem = (item: any) => (
     <div className="flex items-center justify-between border-b p-3">
       <div className="flex items-center gap-3">
         <Avatar>
@@ -55,16 +57,28 @@ export function LazyLoadListDemo() {
         
         <div className="border rounded-md h-96 overflow-hidden bg-background">
           <LazyLoadList
-            totalItems={1000}
-            loadMoreItems={(startIndex, stopIndex) => {
-              return new Promise(resolve => {
-                setTimeout(() => {
-                  resolve(generateItems(startIndex, stopIndex));
-                }, 300);
-              });
+            searchable={true}
+            displayProperty="name"
+            onChange={setSelectedItem}
+            fetchFn={async (search?: string) => {
+              // Simulate network delay
+              await new Promise(resolve => setTimeout(resolve, 300));
+              
+              // Generate mock data
+              const items = generateItems(0, 50);
+              
+              // Filter by search term if provided
+              if (search) {
+                return items.filter(item => 
+                  item.name.toLowerCase().includes(search.toLowerCase()) ||
+                  item.email.toLowerCase().includes(search.toLowerCase())
+                );
+              }
+              
+              return items;
             }}
-            renderItem={renderItem}
-            itemHeight={70}
+            initialValue={null}
+            placeholder="Select a user..."
           />
         </div>
       </div>

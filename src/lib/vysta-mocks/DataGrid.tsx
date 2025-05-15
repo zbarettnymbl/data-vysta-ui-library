@@ -5,68 +5,41 @@ import { Badge } from "@/components/ui/badge";
 import { Check, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { Input } from "@/components/ui/input";
 
-export interface DataGridProps<TItem, TSelected = TItem> {
-  data: TItem[];
-  uniqueIdProperty: string;
-  columns: {
-    id: string;
-    header: string;
-    accessor: (item: TItem) => React.ReactNode;
-    sortable?: boolean;
-  }[];
-  selectionMode?: 'single' | 'multiple' | 'none';
-  onSelectionChange?: (selectedItems: TSelected[]) => void;
-  pagination?: {
-    pageSize: number;
-    totalRecords: number;
-    currentPage?: number;
-    onPageChange?: (page: number) => void;
-  };
+export interface DataGridProps {
+  rows: any[];
+  columns: { id: string; header: string; accessor: (item: any) => React.ReactNode; sortable?: boolean }[];
+  rowIdField: string;
+  selectedRows?: string[];
+  onSelectedRowsChange?: (selectedItems: string[]) => void;
   searchable?: boolean;
   sortable?: boolean;
 }
 
-export function DataGrid<TItem extends Record<string, any>, TSelected = TItem>({
-  data,
-  uniqueIdProperty,
-  columns,
-  selectionMode = 'none',
-  onSelectionChange,
-  pagination,
+export function DataGrid({
+  rows = [],
+  columns = [],
+  rowIdField,
+  selectedRows = [],
+  onSelectedRowsChange,
   searchable = false,
   sortable = false,
-}: DataGridProps<TItem, TSelected>) {
-  const [selected, setSelected] = React.useState<TItem[]>([]);
+}: DataGridProps) {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [sortConfig, setSortConfig] = React.useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
 
-  // Handle selection
-  const handleSelection = (item: TItem) => {
-    let newSelection: TItem[];
+  // Handle row selection
+  const handleSelection = (rowId: string) => {
+    if (!onSelectedRowsChange) return;
     
-    if (selectionMode === 'single') {
-      newSelection = [item];
-    } else if (selectionMode === 'multiple') {
-      const isSelected = selected.some(selectedItem => 
-        selectedItem[uniqueIdProperty] === item[uniqueIdProperty]
-      );
-      
-      if (isSelected) {
-        newSelection = selected.filter(selectedItem => 
-          selectedItem[uniqueIdProperty] !== item[uniqueIdProperty]
-        );
-      } else {
-        newSelection = [...selected, item];
-      }
+    let newSelection: string[];
+    
+    if (selectedRows.includes(rowId)) {
+      newSelection = selectedRows.filter(id => id !== rowId);
     } else {
-      newSelection = [];
+      newSelection = [...selectedRows, rowId];
     }
     
-    setSelected(newSelection);
-    
-    if (onSelectionChange) {
-      onSelectionChange(newSelection as unknown as TSelected[]);
-    }
+    onSelectedRowsChange(newSelection);
   };
 
   // Handle sorting
@@ -84,9 +57,9 @@ export function DataGrid<TItem extends Record<string, any>, TSelected = TItem>({
 
   // Filter data based on search term
   const filteredData = React.useMemo(() => {
-    if (!searchTerm) return data;
+    if (!searchTerm || !rows) return rows || [];
     
-    return data.filter(item => {
+    return rows.filter(item => {
       return columns.some(column => {
         const value = column.accessor(item);
         if (typeof value === 'string') {
@@ -95,11 +68,11 @@ export function DataGrid<TItem extends Record<string, any>, TSelected = TItem>({
         return false;
       });
     });
-  }, [data, searchTerm, columns]);
+  }, [rows, searchTerm, columns]);
 
   // Sort data
   const sortedData = React.useMemo(() => {
-    if (!sortConfig) return filteredData;
+    if (!sortConfig || !filteredData) return filteredData;
     
     return [...filteredData].sort((a, b) => {
       const column = columns.find(col => col.id === sortConfig.key);
@@ -120,11 +93,9 @@ export function DataGrid<TItem extends Record<string, any>, TSelected = TItem>({
     });
   }, [filteredData, sortConfig, columns]);
 
-  // Check if an item is selected
-  const isSelected = (item: TItem) => {
-    return selected.some(selectedItem => 
-      selectedItem[uniqueIdProperty] === item[uniqueIdProperty]
-    );
+  // Check if a row is selected
+  const isSelected = (rowId: string) => {
+    return selectedRows?.includes(rowId);
   };
 
   return (
@@ -163,16 +134,16 @@ export function DataGrid<TItem extends Record<string, any>, TSelected = TItem>({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {sortedData.map((item) => (
+            {sortedData && sortedData.map((item) => (
               <TableRow 
-                key={item[uniqueIdProperty]}
-                onClick={() => selectionMode !== 'none' && handleSelection(item)}
-                className={`${selectionMode !== 'none' ? 'cursor-pointer' : ''} ${
-                  isSelected(item) ? 'bg-muted/50' : ''
+                key={item[rowIdField]}
+                onClick={() => onSelectedRowsChange && handleSelection(item[rowIdField])}
+                className={`${onSelectedRowsChange ? 'cursor-pointer' : ''} ${
+                  isSelected(item[rowIdField]) ? 'bg-muted/50' : ''
                 }`}
               >
                 {columns.map((column) => (
-                  <TableCell key={`${item[uniqueIdProperty]}-${column.id}`}>
+                  <TableCell key={`${item[rowIdField]}-${column.id}`}>
                     {column.accessor(item)}
                   </TableCell>
                 ))}
@@ -181,14 +152,6 @@ export function DataGrid<TItem extends Record<string, any>, TSelected = TItem>({
           </TableBody>
         </Table>
       </div>
-      
-      {pagination && (
-        <div className="flex items-center justify-end space-x-2 py-4">
-          <span className="text-sm text-muted-foreground">
-            Showing {Math.min(pagination.pageSize, sortedData.length)} of {pagination.totalRecords} entries
-          </span>
-        </div>
-      )}
     </div>
   );
 }
