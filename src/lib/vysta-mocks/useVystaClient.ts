@@ -50,6 +50,18 @@ const mockFileService = {
   finalizeFileUpload: async () => ({ fileId: 'mock-file-123' })
 };
 
+// Mock data for FilterPanel demo
+const mockProducts = [
+  { id: 1, productName: 'Widget A', unitPrice: 19.99, unitsInStock: 42, discontinued: false },
+  { id: 2, productName: 'Widget B', unitPrice: 29.99, unitsInStock: 13, discontinued: false },
+  { id: 3, productName: 'Gadget C', unitPrice: 49.99, unitsInStock: 5, discontinued: false },
+  { id: 4, productName: 'Device D', unitPrice: 99.99, unitsInStock: 0, discontinued: true },
+  { id: 5, productName: 'Tool E', unitPrice: 39.99, unitsInStock: 23, discontinued: false },
+];
+
+// Log that we've loaded the products
+console.info('Loaded', mockProducts.length, 'products');
+
 export const useVystaClient = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -65,6 +77,10 @@ export const useVystaClient = () => {
       { id: '2', name: 'Data Storage' },
       { id: '3', name: 'Authentication' },
       mockFileService,
-    ]
+    ],
+    // Mock data that might be needed by components
+    mockData: {
+      products: mockProducts
+    }
   };
 };

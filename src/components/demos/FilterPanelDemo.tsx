@@ -1,45 +1,100 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
-import { Badge } from "@/components/ui/badge";
-import { CheckIcon, XIcon } from "lucide-react";
+import { FilterPanel } from "@datavysta/vysta-react";
+import DataType from "@datavysta/vysta-react/components/Models/DataType";
+import { FilterDefinitionsByField } from "@datavysta/vysta-react/components/Filter/FilterDefinitionsByField";
+import type { Condition } from "@datavysta/vysta-react/components/Filter/Condition";
 import DemoWrapper from "@/components/DemoWrapper";
+import CodeToggle from "@/components/CodeToggle";
+import { Badge } from "@/components/ui/badge";
+import { XIcon } from "lucide-react";
 
 export function FilterPanelDemo() {
-  const [priceRange, setPriceRange] = useState([0, 1000]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [category, setCategory] = useState("");
-  const [filters, setFilters] = useState<string[]>([]);
+  const [conditions, setConditions] = useState<Condition[]>([]);
   
-  const handleApplyFilters = () => {
-    const newFilters = [];
-    
-    if (searchTerm) {
-      newFilters.push(`Search: ${searchTerm}`);
+  const filterDefinitions: FilterDefinitionsByField = [
+    {
+      targetFieldName: "productName",
+      label: "Product Name",
+      dataType: DataType.String
+    },
+    {
+      targetFieldName: "unitPrice",
+      label: "Unit Price",
+      dataType: DataType.Numeric
+    },
+    {
+      targetFieldName: "unitsInStock",
+      label: "Units In Stock",
+      dataType: DataType.Numeric
+    },
+    {
+      targetFieldName: "discontinued",
+      label: "Discontinued",
+      dataType: DataType.Boolean
     }
-    
-    if (category) {
-      newFilters.push(`Category: ${category}`);
-    }
-    
-    if (priceRange[0] > 0 || priceRange[1] < 1000) {
-      newFilters.push(`Price: $${priceRange[0]} - $${priceRange[1]}`);
-    }
-    
-    setFilters(newFilters);
-  };
+  ];
   
   const handleResetFilters = () => {
-    setSearchTerm("");
-    setCategory("");
-    setPriceRange([0, 1000]);
-    setFilters([]);
+    setConditions([]);
   };
   
+  const getFilterSummary = (condition: Condition) => {
+    const def = filterDefinitions.find(d => d.targetFieldName === condition.targetFieldName);
+    if (!def) return '';
+    
+    let valueDisplay = condition.value;
+    if (condition.value === true) valueDisplay = 'Yes';
+    if (condition.value === false) valueDisplay = 'No';
+    
+    return `${def.label} ${condition.operator} ${valueDisplay}`;
+  };
+  
+  const removeCondition = (index: number) => {
+    setConditions(conditions.filter((_, i) => i !== index));
+  };
+  
+  const codeExample = `import { FilterPanel } from '@datavysta/vysta-react';
+import DataType from '@datavysta/vysta-react/components/Models/DataType';
+import { FilterDefinitionsByField } from '@datavysta/vysta-react/components/Filter/FilterDefinitionsByField';
+import type { Condition } from '@datavysta/vysta-react/components/Filter/Condition';
+
+const filterDefinitions: FilterDefinitionsByField = [
+    {
+        targetFieldName: "productName",
+        label: "Product Name",
+        dataType: DataType.String
+    },
+    {
+        targetFieldName: "unitPrice",
+        label: "Unit Price",
+        dataType: DataType.Numeric
+    },
+    {
+        targetFieldName: "unitsInStock",
+        label: "Units In Stock",
+        dataType: DataType.Numeric
+    },
+    {
+        targetFieldName: "discontinued",
+        label: "Discontinued",
+        dataType: DataType.Boolean
+    }
+];
+
+function App() {
+    const [conditions, setConditions] = useState<Condition[]>([]);
+
+    return (
+        <FilterPanel 
+            conditions={conditions}
+            onApply={setConditions}
+            filterDefinitions={filterDefinitions}
+        />
+    );
+}`;
+
   return (
     <DemoWrapper title="Filter Panel" description="Advanced filtering interface">
       <div className="space-y-6">
@@ -52,58 +107,16 @@ export function FilterPanelDemo() {
         
         <div className="grid gap-6 md:grid-cols-[1fr_2fr]">
           <div className="space-y-4 border rounded-md p-4">
-            <div className="space-y-2">
-              <Label htmlFor="search" className="text-foreground">Search</Label>
-              <Input 
-                id="search" 
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Enter keywords..."
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="category-select" className="text-foreground">Category</Label>
-              <Select
-                value={category}
-                onValueChange={setCategory}
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="All Categories" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all-categories">All Categories</SelectItem>
-                  <SelectItem value="electronics">Electronics</SelectItem>
-                  <SelectItem value="clothing">Clothing</SelectItem>
-                  <SelectItem value="furniture">Furniture</SelectItem>
-                  <SelectItem value="accessories">Accessories</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            
-            <div className="space-y-2">
-              <Label className="text-foreground">Price Range</Label>
-              <div className="pt-4 px-2">
-                <Slider
-                  defaultValue={priceRange}
-                  min={0}
-                  max={1000}
-                  step={10}
-                  onValueChange={setPriceRange}
-                />
-              </div>
-              <div className="flex justify-between text-sm text-muted-foreground">
-                <span>${priceRange[0]}</span>
-                <span>${priceRange[1]}</span>
-              </div>
-            </div>
+            <FilterPanel
+              filterDefinitions={filterDefinitions}
+              conditions={conditions}
+              onApply={setConditions}
+              onChange={setConditions}
+            />
             
             <div className="flex justify-between pt-2">
               <Button variant="outline" size="sm" onClick={handleResetFilters}>
                 Reset
-              </Button>
-              <Button size="sm" onClick={handleApplyFilters}>
-                Apply Filters
               </Button>
             </div>
           </div>
@@ -111,13 +124,16 @@ export function FilterPanelDemo() {
           <div className="space-y-4">
             <div className="text-foreground font-medium">Results</div>
             
-            {filters.length > 0 ? (
+            {conditions.length > 0 ? (
               <div className="space-y-4">
                 <div className="flex flex-wrap gap-2">
-                  {filters.map((filter, index) => (
+                  {conditions.map((condition, index) => (
                     <Badge key={index} variant="secondary" className="flex items-center gap-1">
-                      {filter}
-                      <XIcon className="h-3 w-3 cursor-pointer" />
+                      {getFilterSummary(condition)}
+                      <XIcon 
+                        className="h-3 w-3 cursor-pointer" 
+                        onClick={() => removeCondition(index)}
+                      />
                     </Badge>
                   ))}
                 </div>
@@ -129,7 +145,6 @@ export function FilterPanelDemo() {
                         <div className="font-medium text-foreground">Sample Result {item}</div>
                         <div className="text-sm text-muted-foreground">Description for result item {item}</div>
                       </div>
-                      <CheckIcon className="h-5 w-5 text-primary" />
                     </div>
                   ))}
                 </div>
@@ -144,6 +159,8 @@ export function FilterPanelDemo() {
             )}
           </div>
         </div>
+        
+        <CodeToggle code={codeExample} language="tsx" />
       </div>
     </DemoWrapper>
   );
