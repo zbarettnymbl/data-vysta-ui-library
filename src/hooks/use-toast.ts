@@ -4,12 +4,14 @@ import { type VariantProps } from "class-variance-authority";
 import { ToastActionElement, toastVariants } from "@/components/ui/toast";
 
 // Define the extended toast props interface
-export interface ExtendedToastProps extends React.ComponentPropsWithoutRef<typeof Toast> {
+export interface ExtendedToastProps {
   id?: string;
   title?: React.ReactNode;
   description?: React.ReactNode;
   action?: ToastActionElement;
   variant?: VariantProps<typeof toastVariants>["variant"];
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 type Toast = ExtendedToastProps;
@@ -22,6 +24,7 @@ type ToasterToast = ExtendedToastProps & {
   title?: React.ReactNode;
   description?: React.ReactNode;
   action?: ToastActionElement;
+  open?: boolean;
 };
 
 const actionTypes = {
@@ -152,6 +155,7 @@ type ToastProps = Omit<
   id?: string;
 };
 
+// Make the toast function callable directly
 function toast(props: ToastProps) {
   const id = props.id || genId();
 

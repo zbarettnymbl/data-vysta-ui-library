@@ -118,6 +118,7 @@ type ToastActionElement = React.ReactElement<typeof ToastAction>
 export {
   type ToastProps,
   type ToastActionElement,
+  toastVariants,
   ToastProvider,
   ToastViewport,
   Toast,
@@ -126,63 +127,3 @@ export {
   ToastClose,
   ToastAction,
 }
-
-// Define useToast hook
-export function useToast() {
-  const [toasts, setToasts] = React.useState<ToastProps[]>([])
-
-  function toast({ ...props }: ToastProps) {
-    const id = crypto.randomUUID()
-    const newToast = { ...props, id }
-    setToasts((prevToasts) => [...prevToasts, newToast])
-    return {
-      id,
-      dismiss: () => setToasts((prevToasts) => prevToasts.filter((toast) => toast.id !== id)),
-      update: (props: ToastProps) => setToasts((prevToasts) => prevToasts.map((toast) => (toast.id === id ? { ...toast, ...props } : toast))),
-    }
-  }
-
-  return {
-    toast,
-    toasts,
-    dismiss: (toastId?: string) => {
-      if (toastId) {
-        setToasts((prevToasts) => prevToasts.filter((toast) => toast.id !== toastId))
-      } else {
-        setToasts([])
-      }
-    },
-  }
-}
-
-// Export a toast function for direct use
-export const toast = {
-  // Define a simple implementation for compatibility
-  success: (message: string) => {
-    console.log("Toast success:", message)
-  },
-  error: (message: string) => {
-    console.log("Toast error:", message)
-  },
-  warning: (message: string) => {
-    console.log("Toast warning:", message)
-  },
-  info: (message: string) => {
-    console.log("Toast info:", message)
-  },
-  // Default function for basic toast usage
-  __call: function(args: any) {
-    console.log("Toast triggered", args)
-  },
-  // Make it callable
-  call: function(this: any, ...args: any[]) {
-    return this.__call(args)
-  }
-}
-
-// Make toast function callable directly
-Object.defineProperty(toast, Symbol.hasInstance, {
-  value: function(instance: any) {
-    return typeof instance === "function"
-  }
-})
