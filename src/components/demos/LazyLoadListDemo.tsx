@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import DemoWrapper from "@/components/DemoWrapper";
-import { LazyLoadList } from "@/lib/vysta-mocks";
+import { LazyLoadList } from "@datavysta/vysta-react";
 
 export function LazyLoadListDemo() {
   const [selectedItem, setSelectedItem] = useState<any>(null);
@@ -21,29 +21,6 @@ export function LazyLoadListDemo() {
       };
     });
   };
-  
-  const renderUserItem = (item: any) => (
-    <div className="flex items-center justify-between border-b p-3">
-      <div className="flex items-center gap-3">
-        <Avatar>
-          <AvatarImage src={item.avatar} alt={item.name} />
-          <AvatarFallback>{item.name.substring(0, 2)}</AvatarFallback>
-        </Avatar>
-        <div>
-          <div className="font-medium text-foreground">{item.name}</div>
-          <div className="text-sm text-muted-foreground">{item.email}</div>
-        </div>
-      </div>
-      <Badge 
-        variant={
-          item.status === "active" ? "default" : 
-          item.status === "away" ? "outline" : "secondary"
-        }
-      >
-        {item.status}
-      </Badge>
-    </div>
-  );
   
   return (
     <DemoWrapper title="LazyLoadList" description="Efficient loading of large lists">

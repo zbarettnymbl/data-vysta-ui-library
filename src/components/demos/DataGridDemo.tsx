@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { DataGrid } from "@/lib/vysta-mocks";
+import { DataGrid } from "@datavysta/vysta-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import DemoWrapper from "@/components/DemoWrapper";
@@ -17,7 +17,7 @@ export function DataGridDemo() {
     { id: "5", name: "Product E", category: "Accessories", price: 29.99, stock: 65 },
   ];
 
-  // Column definitions - updated to match the DataGrid interface
+  // Column definitions - updated to match the DataGrid interface from VystaReact
   const columns = [
     { 
       id: "name", 
@@ -72,6 +72,8 @@ export function DataGridDemo() {
               rowIdField="id"
               selectedRows={selectedItems}
               onSelectedRowsChange={handleSelectionChange}
+              searchable
+              sortable
             />
           </div>
         </div>

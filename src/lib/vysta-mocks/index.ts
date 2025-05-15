@@ -1,4 +1,4 @@
 
-export { DataGrid } from './DataGrid';
-export { LazyLoadList } from './LazyLoadList';
+import { DataGrid, LazyLoadList } from '@datavysta/vysta-react';
+export { DataGrid, LazyLoadList };
 export { useVystaClient } from './useVystaClient';
