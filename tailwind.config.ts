@@ -20,9 +20,9 @@ export default {
 		},
 		extend: {
 			colors: {
-				// DataVysta brand colors
-				"brand-blue": "#2B90FF",
-				"brand-teal": "#0BCBC0",
+				// DataVysta brand colors - updated to be more muted
+				"brand-blue": "#0E67B4",
+				"brand-teal": "#1B8A84",
 				"brand-navy": "#101C60",
 
 				border: 'hsl(var(--border))',
