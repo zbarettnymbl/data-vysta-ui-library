@@ -2,7 +2,7 @@
 import { Toggle } from "@/components/ui/toggle";
 import { Bold, Italic, Underline } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { CodeBlock } from "@/components/CodeBlock";
+import CodeBlock from "@/components/CodeBlock";
 
 const ToggleDemo = () => {
   const codeExample = `import { Toggle } from "@/components/ui/toggle"

@@ -1,12 +1,26 @@
-
 import { useState } from "react";
 import { FilterPanel } from "@datavysta/vysta-react";
-import DataType from "@datavysta/vysta-react/components/Models/DataType";
-import { FilterDefinitionsByField } from "@datavysta/vysta-react/components/Filter/FilterDefinitionsByField";
-import { Condition } from "@datavysta/vysta-client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CodeBlock from "../CodeBlock";
+
+// Define type for filter definition
+type DataType = 'string' | 'numeric' | 'boolean' | 'date';
+
+interface FilterDefinition {
+  targetFieldName: string;
+  label: string;
+  dataType: DataType;
+}
+
+type FilterDefinitionsByField = FilterDefinition[];
+
+// Define type for Condition
+interface Condition {
+  field: string;
+  operator: string;
+  value: any;
+}
 
 export const FilterPanelDemo = () => {
   const [conditions, setConditions] = useState<Condition[]>([]);
@@ -16,27 +30,27 @@ export const FilterPanelDemo = () => {
     {
       targetFieldName: "productName",
       label: "Product Name",
-      dataType: DataType.String
+      dataType: 'string'
     },
     {
       targetFieldName: "unitPrice",
       label: "Unit Price",
-      dataType: DataType.Numeric
+      dataType: 'numeric'
     },
     {
       targetFieldName: "unitsInStock",
       label: "Units In Stock",
-      dataType: DataType.Numeric
+      dataType: 'numeric'
     },
     {
       targetFieldName: "discontinued",
       label: "Discontinued",
-      dataType: DataType.Boolean
+      dataType: 'boolean'
     },
     {
       targetFieldName: "orderDate",
       label: "Order Date",
-      dataType: DataType.Date
+      dataType: 'date'
     }
   ];
 

@@ -1,6 +1,6 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { CodeBlock } from "@/components/CodeBlock";
+import CodeBlock from "@/components/CodeBlock";
 
 const AvatarDemo = () => {
   const codeExample = `import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"

@@ -1,4 +1,3 @@
-
 import { useMemo } from "react";
 import { VystaClient, VystaFileService } from "@datavysta/vysta-client";
 import { FileUpload } from "@datavysta/vysta-react";
@@ -12,7 +11,7 @@ export const FileUploadDemo = () => {
   // Create a mocked file service for demo purposes
   const fileService = useMemo(() => {
     const client = new VystaClient({ baseUrl: "http://localhost:8080" });
-    return new VystaFileService(client);
+    return new VystaFileService(client, "default");
   }, []);
 
   const code = `import { FileUpload } from '@datavysta/vysta-react';
@@ -47,7 +46,7 @@ function MyComponent() {
         </p>
       </div>
       
-      <Alert variant="warning">
+      <Alert>
         <AlertCircle className="h-4 w-4" />
         <AlertTitle>Demo Only</AlertTitle>
         <AlertDescription>

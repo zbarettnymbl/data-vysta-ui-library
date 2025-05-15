@@ -1,6 +1,6 @@
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { CodeBlock } from "@/components/CodeBlock";
+import CodeBlock from "@/components/CodeBlock";
 
 const AccordionDemo = () => {
   const codeExample = `import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"

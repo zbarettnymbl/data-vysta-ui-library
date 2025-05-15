@@ -1,4 +1,3 @@
-
 import { useMemo } from "react";
 import { DataGrid } from "@datavysta/vysta-react";
 import { VystaClient, VystaService } from "@datavysta/vysta-client";
@@ -47,13 +46,13 @@ export const DataGridDemo = () => {
     return new MockProductService(client);
   }, []);
 
-  // Define column definitions
+  // Define column definitions - using correct typing
   const columnDefs = [
-    { field: "productId", headerName: "ID", width: 70 },
-    { field: "productName", headerName: "Name", width: 250 },
-    { field: "unitPrice", headerName: "Price", width: 100 },
-    { field: "unitsInStock", headerName: "Stock", width: 100 },
-    { field: "discontinued", headerName: "Discontinued", width: 120 },
+    { field: "productId" as keyof Product, headerName: "ID", width: 70 },
+    { field: "productName" as keyof Product, headerName: "Name", width: 250 },
+    { field: "unitPrice" as keyof Product, headerName: "Price", width: 100 },
+    { field: "unitsInStock" as keyof Product, headerName: "Stock", width: 100 },
+    { field: "discontinued" as keyof Product, headerName: "Discontinued", width: 120 },
   ];
 
   const code = `import { DataGrid } from '@datavysta/vysta-react';

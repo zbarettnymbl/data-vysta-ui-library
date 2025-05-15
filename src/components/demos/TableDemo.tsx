@@ -1,6 +1,6 @@
 
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { CodeBlock } from "@/components/CodeBlock";
+import CodeBlock from "@/components/CodeBlock";
 
 const TableDemo = () => {
   const invoices = [

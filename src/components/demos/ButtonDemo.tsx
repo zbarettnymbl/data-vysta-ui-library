@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { CodeBlock } from "@/components/CodeBlock";
+import CodeBlock from "@/components/CodeBlock";
 
 const ButtonDemo = () => {
   const codeExample = `import { Button } from "@/components/ui/button"

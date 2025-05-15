@@ -1,7 +1,7 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CodeBlock } from "@/components/CodeBlock";
+import CodeBlock from "@/components/CodeBlock";
 
 const InputDemo = () => {
   const codeExample = `import { Input } from "@/components/ui/input"

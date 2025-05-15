@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
-import { CodeBlock } from "@/components/CodeBlock";
+import CodeBlock from "@/components/CodeBlock";
 
 const ToastDemo = () => {
   const codeExample = `import { Button } from "@/components/ui/button"
