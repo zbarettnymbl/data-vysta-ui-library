@@ -144,7 +144,7 @@ export function DataGridDemo() {
               repository={productService}
               columnDefs={columnDefs}
               getRowId={(product) => product.id}
-              onSelectedRowsChange={handleSelectionChange} 
+              onSelectedRowsChange={handleSelectionChange}
             />
           </div>
         </div>

@@ -135,9 +135,8 @@ export function LazyLoadListDemo() {
         <div className="border rounded-md h-96 overflow-hidden bg-background">
           <LazyLoadList<User>
             repository={userService}
-            getItemId={(user) => user.id}
+            displayColumn="name"
             placeholder="Search users..."
-            displayProperty="name"
             onChange={(user) => setSelectedUser(user)}
           />
         </div>
