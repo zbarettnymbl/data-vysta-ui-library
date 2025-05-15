@@ -155,9 +155,34 @@ export function useToast() {
   }
 }
 
+// Export a toast function for direct use
 export const toast = {
-  // Just provide a minimal implementation for compatibility
-  (...args: any[]) {
+  // Define a simple implementation for compatibility
+  success: (message: string) => {
+    console.log("Toast success:", message)
+  },
+  error: (message: string) => {
+    console.log("Toast error:", message)
+  },
+  warning: (message: string) => {
+    console.log("Toast warning:", message)
+  },
+  info: (message: string) => {
+    console.log("Toast info:", message)
+  },
+  // Default function for basic toast usage
+  __call: function(args: any) {
     console.log("Toast triggered", args)
   },
+  // Make it callable
+  call: function(this: any, ...args: any[]) {
+    return this.__call(args)
+  }
 }
+
+// Make toast function callable directly
+Object.defineProperty(toast, Symbol.hasInstance, {
+  value: function(instance: any) {
+    return typeof instance === "function"
+  }
+})
