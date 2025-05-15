@@ -1,4 +1,3 @@
 
-import { DataGrid, LazyLoadList } from '@datavysta/vysta-react';
-export { DataGrid, LazyLoadList };
+// We no longer need to mock these components as we're using the actual ones from vysta-react
 export { useVystaClient } from './useVystaClient';

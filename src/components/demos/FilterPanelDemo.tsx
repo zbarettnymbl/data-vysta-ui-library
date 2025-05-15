@@ -68,7 +68,7 @@ export function FilterPanelDemo() {
                 value={category}
                 onValueChange={setCategory}
               >
-                <SelectTrigger id="category-select">
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder="All Categories" />
                 </SelectTrigger>
                 <SelectContent>

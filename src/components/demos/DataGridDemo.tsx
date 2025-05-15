@@ -1,9 +1,44 @@
-
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { DataGrid } from "@datavysta/vysta-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import DemoWrapper from "@/components/DemoWrapper";
+import { VystaClient } from "@datavysta/vysta-client";
+import { useVystaClient } from "@/lib/vysta-mocks/useVystaClient";
+
+// Define a proper interface for our product type
+interface Product {
+  id: string;
+  name: string;
+  category: string;
+  price: number;
+  stock: number;
+}
+
+// Mock VystaService implementation
+class ProductService {
+  private data: Product[];
+  
+  constructor(data: Product[]) {
+    this.data = data;
+  }
+  
+  // Basic implementation of a repository interface
+  async getAll() {
+    return { data: this.data, total: this.data.length };
+  }
+
+  // Other required methods for IDataService
+  async getById(id: string) {
+    const item = this.data.find(item => item.id === id);
+    return item ? { data: item } : { data: null };
+  }
+
+  // Mock implementations for other methods
+  async create() { return { success: true, data: null }; }
+  async update() { return { success: true, data: null }; }
+  async delete() { return { success: true, data: null }; }
+}
 
 export function DataGridDemo() {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
@@ -17,32 +52,22 @@ export function DataGridDemo() {
     { id: "5", name: "Product E", category: "Accessories", price: 29.99, stock: 65 },
   ];
 
+  // Create a product service instance with our data
+  const productService = useMemo(() => new ProductService(data), []);
+
   // Column definitions - updated to match the DataGrid interface from VystaReact
-  const columns = [
-    { 
-      id: "name", 
-      header: "Name", 
-      accessor: (item: any) => item.name 
-    },
-    { 
-      id: "category", 
-      header: "Category", 
-      accessor: (item: any) => item.category 
-    },
-    { 
-      id: "price", 
-      header: "Price", 
-      accessor: (item: any) => `$${item.price}` 
-    },
-    { 
-      id: "stock", 
-      header: "Stock", 
-      accessor: (item: any) => item.stock 
-    }
+  const columnDefs = [
+    { field: 'name', headerName: 'Name', width: 150 },
+    { field: 'category', headerName: 'Category', width: 120 },
+    { field: 'price', headerName: 'Price', width: 100, valueFormatter: (params: any) => `$${params.value}` },
+    { field: 'stock', headerName: 'Stock', width: 80 }
   ];
 
-  const handleSelectionChange = (newSelection: string[]) => {
-    setSelectedItems(newSelection);
+  const handleSelectionChange = (newSelection: any) => {
+    if (newSelection && newSelection.api) {
+      const selectedRows = newSelection.api.getSelectedRows();
+      setSelectedItems(selectedRows.map((row: Product) => row.id));
+    }
   };
 
   return (
@@ -66,14 +91,13 @@ export function DataGridDemo() {
           )}
 
           <div className="h-96 border rounded-md bg-background">
-            <DataGrid
-              rows={data}
-              columns={columns}
-              rowIdField="id"
-              selectedRows={selectedItems}
-              onSelectedRowsChange={handleSelectionChange}
-              searchable
-              sortable
+            <DataGrid<Product>
+              title="Products"
+              noun="Product"
+              repository={productService}
+              columnDefs={columnDefs}
+              getRowId={(product) => product.id}
+              onRowSelected={handleSelectionChange}
             />
           </div>
         </div>

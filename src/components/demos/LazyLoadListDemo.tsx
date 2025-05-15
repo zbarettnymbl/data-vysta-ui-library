@@ -1,15 +1,22 @@
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
+import { LazyLoadList } from "@datavysta/vysta-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import DemoWrapper from "@/components/DemoWrapper";
-import { LazyLoadList } from "@datavysta/vysta-react";
 
-export function LazyLoadListDemo() {
-  const [selectedItem, setSelectedItem] = useState<any>(null);
+// Define User interface
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  status: string;
+  avatar: string;
+}
 
-  // Sample data generator function
-  const generateItems = (start: number, end: number) => {
+// Mock data service for LazyLoadList
+class UserService {
+  private generateItems = (start: number, end: number) => {
     return Array.from({ length: end - start }, (_, i) => {
       const id = start + i;
       return {
@@ -21,6 +28,67 @@ export function LazyLoadListDemo() {
       };
     });
   };
+
+  async search(term?: string, page: number = 0, pageSize: number = 20) {
+    // Simulate network delay
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
+    // Generate mock data
+    const items = this.generateItems(0, 50);
+    
+    // Filter by search term if provided
+    const filteredItems = term 
+      ? items.filter(item => 
+          item.name.toLowerCase().includes(term.toLowerCase()) ||
+          item.email.toLowerCase().includes(term.toLowerCase())
+        )
+      : items;
+      
+    const paginatedItems = filteredItems.slice(page * pageSize, (page + 1) * pageSize);
+    
+    return {
+      data: paginatedItems,
+      total: filteredItems.length
+    };
+  }
+
+  // Required methods for a data service
+  async getById(id: string) {
+    const allItems = this.generateItems(0, 50);
+    const item = allItems.find(i => i.id === id);
+    return { data: item || null };
+  }
+}
+
+export function LazyLoadListDemo() {
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  
+  // Create a memoized instance of our service
+  const userService = useMemo(() => new UserService(), []);
+
+  // Custom item renderer
+  const renderUserItem = (user: User) => (
+    <div className="flex items-center justify-between p-3">
+      <div className="flex items-center gap-3">
+        <Avatar>
+          <AvatarImage src={user.avatar} alt={user.name} />
+          <AvatarFallback>{user.name.substring(0, 2)}</AvatarFallback>
+        </Avatar>
+        <div>
+          <div className="font-medium text-foreground">{user.name}</div>
+          <div className="text-sm text-muted-foreground">{user.email}</div>
+        </div>
+      </div>
+      <Badge 
+        variant={
+          user.status === "active" ? "default" : 
+          user.status === "away" ? "outline" : "secondary"
+        }
+      >
+        {user.status}
+      </Badge>
+    </div>
+  );
   
   return (
     <DemoWrapper title="LazyLoadList" description="Efficient loading of large lists">
@@ -33,29 +101,12 @@ export function LazyLoadListDemo() {
         </div>
         
         <div className="border rounded-md h-96 overflow-hidden bg-background">
-          <LazyLoadList
-            searchable={true}
-            displayProperty="name"
-            onChange={setSelectedItem}
-            fetchFn={async (search?: string) => {
-              // Simulate network delay
-              await new Promise(resolve => setTimeout(resolve, 300));
-              
-              // Generate mock data
-              const items = generateItems(0, 50);
-              
-              // Filter by search term if provided
-              if (search) {
-                return items.filter(item => 
-                  item.name.toLowerCase().includes(search.toLowerCase()) ||
-                  item.email.toLowerCase().includes(search.toLowerCase())
-                );
-              }
-              
-              return items;
-            }}
-            initialValue={null}
-            placeholder="Select a user..."
+          <LazyLoadList<User>
+            repository={userService}
+            renderItem={renderUserItem}
+            searchField="name"
+            getItemId={(user) => user.id}
+            placeholder="Search users..."
           />
         </div>
       </div>
