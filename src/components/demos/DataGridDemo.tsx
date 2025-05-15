@@ -15,6 +15,14 @@ interface Product {
   stock: number;
 }
 
+// Define DataResult interface to match what IReadonlyDataService expects
+interface DataResult<T> {
+  data: T[];
+  error?: string;
+  total: number;
+  count: number;
+}
+
 // Updated ProductService class that implements all required methods
 class ProductService {
   private data: Product[];
@@ -23,9 +31,14 @@ class ProductService {
     this.data = data;
   }
   
-  // Basic implementation of a repository interface
-  async getAll() {
-    return { data: this.data, total: this.data.length };
+  // Updated implementation of getAll to match the required interface
+  async getAll(): Promise<DataResult<Product>> {
+    return { 
+      data: this.data, 
+      total: this.data.length,
+      count: this.data.length,
+      error: undefined
+    };
   }
 
   async getById(id: string) {
@@ -33,8 +46,8 @@ class ProductService {
     return { data: item || null };
   }
 
-  // Required method for IReadonlyDataService
-  async query(options: any = {}) {
+  // Updated query method to match required interface
+  async query(options: any = {}): Promise<DataResult<Product>> {
     const { filters, sort, page = 0, pageSize = 20 } = options;
     
     // Apply any filters
@@ -72,13 +85,12 @@ class ProductService {
     return { 
       data: paginatedData,
       total: filteredData.length,
-      page,
-      pageSize,
-      pageCount: Math.ceil(filteredData.length / pageSize)
+      count: paginatedData.length,
+      error: undefined
     };
   }
 
-  // Required method for IReadonlyDataService
+  // Updated download method
   async download() {
     // Mock implementation
     return { data: new Blob(['mock data'], { type: 'text/plain' }), filename: 'products.csv' };
@@ -100,12 +112,12 @@ export function DataGridDemo() {
   // Create a product service instance with our data
   const productService = useMemo(() => new ProductService(data), []);
 
-  // Updated column definitions to match ColDef<Product, any>
+  // Column definitions using proper typing
   const columnDefs = [
-    { field: 'name' as const, headerName: 'Name', width: 150 },
-    { field: 'category' as const, headerName: 'Category', width: 120 },
-    { field: 'price' as const, headerName: 'Price', width: 100, valueFormatter: (params: any) => `$${params.value}` },
-    { field: 'stock' as const, headerName: 'Stock', width: 80 }
+    { field: 'name', headerName: 'Name', width: 150 },
+    { field: 'category', headerName: 'Category', width: 120 },
+    { field: 'price', headerName: 'Price', width: 100, valueFormatter: (params: any) => `$${params.value}` },
+    { field: 'stock', headerName: 'Stock', width: 80 }
   ];
 
   const handleSelectionChange = (newSelection: any) => {
