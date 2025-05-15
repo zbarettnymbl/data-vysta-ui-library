@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FilterPanel } from "@datavysta/vysta-react";
-import DataType from "@datavysta/vysta-react/components/Models/DataType";
-import { FilterDefinitionsByField } from "@datavysta/vysta-react/components/Filter/FilterDefinitionsByField";
-import type { Condition } from "@datavysta/vysta-react/components/Filter/Condition";
+import { DataType } from "@datavysta/vysta-react";
+import { FilterDefinitionsByField } from "@datavysta/vysta-react";
+import { Condition } from "@datavysta/vysta-react";
 import DemoWrapper from "@/components/DemoWrapper";
 import CodeToggle from "@/components/CodeToggle";
 import { Badge } from "@/components/ui/badge";
@@ -55,10 +55,8 @@ export function FilterPanelDemo() {
     setConditions(conditions.filter((_, i) => i !== index));
   };
   
-  const codeExample = `import { FilterPanel } from '@datavysta/vysta-react';
-import DataType from '@datavysta/vysta-react/components/Models/DataType';
-import { FilterDefinitionsByField } from '@datavysta/vysta-react/components/Filter/FilterDefinitionsByField';
-import type { Condition } from '@datavysta/vysta-react/components/Filter/Condition';
+  const codeExample = `import { FilterPanel, DataType, FilterDefinitionsByField, Condition } from '@datavysta/vysta-react';
+import { useState } from 'react';
 
 const filterDefinitions: FilterDefinitionsByField = [
     {
