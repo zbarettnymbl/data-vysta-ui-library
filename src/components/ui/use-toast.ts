@@ -1,4 +1,8 @@
 
-import { useToast, toast, type ToastActionElement, type ToastProps } from "@/hooks/use-toast";
+import { useToast, toast, type ToastProps } from "@/hooks/use-toast";
 
-export { useToast, toast, type ToastActionElement, type ToastProps };
+export type ToastActionElement = React.ReactElement<{
+  onPress: () => void;
+}>;
+
+export { useToast, toast, type ToastProps, type ToastActionElement };

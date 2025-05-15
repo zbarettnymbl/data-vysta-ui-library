@@ -1,9 +1,9 @@
 
 import React, { useState } from "react";
-import { DataGrid } from "@datavysta/vysta-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Check, X } from "lucide-react";
+import { DataGrid } from "@/lib/vysta-mocks"; // Import from our mocks
 
 // Define Product type
 type Product = {

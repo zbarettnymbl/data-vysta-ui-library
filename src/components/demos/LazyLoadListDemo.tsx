@@ -1,9 +1,8 @@
 
 import React, { useState } from "react";
-import { LazyLoadList } from "@datavysta/vysta-react";
+import { LazyLoadList } from "@/lib/vysta-mocks";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { useVystaClient } from "@datavysta/vysta-react";
 
 // Define Product type
 type Product = {
@@ -17,7 +16,6 @@ type Product = {
 
 export function LazyLoadListDemo() {
   const { toast } = useToast();
-  const client = useVystaClient();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   
   // Mock data for the LazyLoadList
@@ -137,10 +135,12 @@ export function LazyLoadListDemo() {
             displayProperty="name"
             onChange={(product) => {
               setSelectedProduct(product);
-              toast({
-                title: "Selected Product",
-                description: `You selected: ${product?.name || "None"}`,
-              });
+              if (product) {
+                toast({
+                  title: "Selected Product",
+                  description: `You selected: ${product.name || "None"}`,
+                });
+              }
             }}
             fetchFn={async (search = "") => {
               // In a real application, this would call a Vysta service

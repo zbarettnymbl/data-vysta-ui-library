@@ -1,11 +1,11 @@
 
 import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "@/hooks/use-toast";
 import CodeBlock from "@/components/CodeBlock";
 
 const ToastDemo = () => {
   const codeExample = `import { Button } from "@/components/ui/button"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "@/hooks/use-toast"
 
 // Default toast
 <Button
@@ -42,7 +42,7 @@ import { toast } from "@/components/ui/use-toast"
               toast({
                 title: "Default Toast",
                 description: "This is a default toast message",
-              })
+              });
             }}
           >
             Show Toast
@@ -55,7 +55,7 @@ import { toast } from "@/components/ui/use-toast"
                 variant: "destructive",
                 title: "Error Toast",
                 description: "Something went wrong!",
-              })
+              });
             }}
           >
             Show Error Toast
@@ -72,7 +72,7 @@ import { toast } from "@/components/ui/use-toast"
                     Undo
                   </Button>
                 ),
-              })
+              });
             }}
           >
             Toast with Action
