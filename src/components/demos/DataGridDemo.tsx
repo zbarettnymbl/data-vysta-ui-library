@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { DataGrid } from "@datavysta/vysta-react/mantine";
+import { DataGrid } from "@datavysta/vysta-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Check, X } from "lucide-react";
