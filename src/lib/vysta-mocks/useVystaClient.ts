@@ -1,34 +1,35 @@
 
-/**
- * Mock implementation of the useVystaClient hook
- */
-export function useVystaClient() {
+import { useState, useEffect } from 'react';
+
+// Simplified mock of the Vysta client
+export const useVystaClient = () => {
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  useEffect(() => {
+    // Simulate initialization delay
+    const timer = setTimeout(() => {
+      setIsInitialized(true);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Mock services list
+  const services = [
+    { id: '1', name: 'User Management' },
+    { id: '2', name: 'Data Storage' },
+    { id: '3', name: 'Authentication' },
+    { id: '4', name: 'File Upload' },
+  ];
+
   return {
-    call: async (serviceName: string, method: string, args: unknown) => {
-      console.log(`Mock Vysta client called: ${serviceName}.${method}`, args);
-      return { success: true, data: {} };
-    },
-    login: async () => {
-      console.log('Mock Vysta client: login called');
-      return { success: true };
-    },
-    logout: async () => {
-      console.log('Mock Vysta client: logout called');
-      return { success: true };
-    },
-    isAuthenticated: () => {
-      return true;
-    },
-    getAuthToken: () => {
-      return 'mock-auth-token';
-    },
-    // Add the missing properties
-    isInitialized: true,
-    services: [
-      { id: "auth", name: "Authentication Service", version: "1.0.0" },
-      { id: "storage", name: "Storage Service", version: "1.2.1" },
-      { id: "analytics", name: "Analytics Service", version: "0.9.5" },
-      { id: "messaging", name: "Messaging Service", version: "1.1.0" }
-    ]
+    isInitialized,
+    services,
+    client: {
+      isInitialized: isInitialized,
+      baseUrl: 'https://api.mockservice.com'
+    }
   };
-}
+};
+
+export default useVystaClient;

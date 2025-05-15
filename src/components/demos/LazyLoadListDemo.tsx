@@ -4,6 +4,7 @@ import { LazyLoadList } from "@datavysta/vysta-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import DemoWrapper from "@/components/DemoWrapper";
+import { DataResult } from "@datavysta/vysta-client";
 
 // Define User interface
 interface User {
@@ -30,12 +31,17 @@ class UserService {
   };
 
   // Required method for IReadonlyDataService
-  async getAll() {
+  async getAll(): Promise<DataResult<User>> {
     const items = this.generateItems(0, 50);
-    return { data: items, total: items.length };
+    return { 
+      data: items, 
+      total: items.length, 
+      count: items.length, 
+      error: null 
+    };
   }
 
-  async search(term?: string, page: number = 0, pageSize: number = 20) {
+  async search(term?: string, page: number = 0, pageSize: number = 20): Promise<DataResult<User>> {
     // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 300));
     
@@ -54,7 +60,9 @@ class UserService {
     
     return {
       data: paginatedItems,
-      total: filteredItems.length
+      total: filteredItems.length,
+      count: paginatedItems.length,
+      error: null
     };
   }
 
@@ -66,7 +74,7 @@ class UserService {
   }
 
   // Required method for IReadonlyDataService
-  async query(options: any = {}) {
+  async query(options: any = {}): Promise<DataResult<User>> {
     const { filters, q, page = 0, pageSize = 20 } = options;
     
     // Generate mock data
@@ -99,9 +107,8 @@ class UserService {
     return { 
       data: paginatedItems,
       total: filteredItems.length,
-      page,
-      pageSize,
-      pageCount: Math.ceil(filteredItems.length / pageSize)
+      count: paginatedItems.length,
+      error: null
     };
   }
 

@@ -15,13 +15,8 @@ interface Product {
   stock: number;
 }
 
-// Define DataResult interface to match what IReadonlyDataService expects
-interface DataResult<T> {
-  data: T[];
-  error?: string;
-  total: number;
-  count: number;
-}
+// Import DataResult from vysta-client or define it to match exactly
+import { DataResult } from "@datavysta/vysta-client";
 
 // Updated ProductService class that implements all required methods
 class ProductService {
@@ -37,7 +32,7 @@ class ProductService {
       data: this.data, 
       total: this.data.length,
       count: this.data.length,
-      error: undefined
+      error: null // Changed from undefined to null to match the interface
     };
   }
 
@@ -86,7 +81,7 @@ class ProductService {
       data: paginatedData,
       total: filteredData.length,
       count: paginatedData.length,
-      error: undefined
+      error: null // Changed from undefined to null to match the interface
     };
   }
 
@@ -112,12 +107,12 @@ export function DataGridDemo() {
   // Create a product service instance with our data
   const productService = useMemo(() => new ProductService(data), []);
 
-  // Column definitions using proper typing
+  // Updated column definitions to match the ColDef interface correctly
   const columnDefs = [
-    { field: 'name', headerName: 'Name', width: 150 },
-    { field: 'category', headerName: 'Category', width: 120 },
-    { field: 'price', headerName: 'Price', width: 100, valueFormatter: (params: any) => `$${params.value}` },
-    { field: 'stock', headerName: 'Stock', width: 80 }
+    { field: 'name' as keyof Product, headerName: 'Name', width: 150 },
+    { field: 'category' as keyof Product, headerName: 'Category', width: 120 },
+    { field: 'price' as keyof Product, headerName: 'Price', width: 100, valueFormatter: (params: any) => `$${params.value}` },
+    { field: 'stock' as keyof Product, headerName: 'Stock', width: 80 }
   ];
 
   const handleSelectionChange = (newSelection: any) => {
