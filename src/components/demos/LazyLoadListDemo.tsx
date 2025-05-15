@@ -181,7 +181,6 @@ function ProductSelector() {
               
               <div>
                 <h3 className="font-medium mb-2">Select Product:</h3>
-                {/* Fix the syntax error in the generic component by using proper JSX notation */}
                 <LazyLoadList<Product>
                   repository={productService}
                   value={selectedProductId}
