@@ -14,12 +14,15 @@ import {
   SidebarTrigger,
   SidebarFooter,
 } from "@/components/ui/sidebar";
-import { Database, Grid, Filter, List, Upload, Shield } from "lucide-react";
+import { Database, Grid, Filter, List, Upload, Shield, Keyboard, Layout, Square } from "lucide-react";
 import { DataGridDemo } from "@/components/demos/DataGridDemo";
 import { FilterPanelDemo } from "@/components/demos/FilterPanelDemo";
 import { LazyLoadListDemo } from "@/components/demos/LazyLoadListDemo";
 import { FileUploadDemo } from "@/components/demos/FileUploadDemo";
 import { ServiceProviderDemo } from "@/components/demos/ServiceProviderDemo";
+import InputDemo from "@/components/demos/InputDemo";
+import ButtonDemo from "@/components/demos/ButtonDemo";
+import CardDemo from "@/components/demos/CardDemo";
 import Logo from "@/components/Logo";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 
@@ -82,6 +85,33 @@ const Components = () => {
                     <span>ServiceProvider</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton 
+                    isActive={activeComponent === "inputs"} 
+                    onClick={() => setActiveComponent("inputs")}
+                  >
+                    <Keyboard className="h-4 w-4" />
+                    <span>Inputs</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton 
+                    isActive={activeComponent === "buttons"} 
+                    onClick={() => setActiveComponent("buttons")}
+                  >
+                    <Square className="h-4 w-4" />
+                    <span>Buttons</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton 
+                    isActive={activeComponent === "cards"} 
+                    onClick={() => setActiveComponent("cards")}
+                  >
+                    <Layout className="h-4 w-4" />
+                    <span>Cards</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
               </SidebarMenu>
             </SidebarGroup>
           </SidebarContent>
@@ -93,7 +123,7 @@ const Components = () => {
         <SidebarInset>
           <div className="flex items-center border-b p-4">
             <SidebarTrigger className="mr-2" />
-            <h1 className="font-medium">Vysta React Components</h1>
+            <h1 className="font-medium text-foreground">Vysta React Components</h1>
           </div>
           
           <div className="container py-8">
@@ -102,6 +132,9 @@ const Components = () => {
             {activeComponent === "lazyloadlist" && <LazyLoadListDemo />}
             {activeComponent === "fileupload" && <FileUploadDemo />}
             {activeComponent === "serviceprovider" && <ServiceProviderDemo />}
+            {activeComponent === "inputs" && <InputDemo />}
+            {activeComponent === "buttons" && <ButtonDemo />}
+            {activeComponent === "cards" && <CardDemo />}
           </div>
         </SidebarInset>
       </div>

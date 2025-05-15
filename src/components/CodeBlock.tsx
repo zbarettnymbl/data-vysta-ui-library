@@ -1,30 +1,25 @@
 
-import { useEffect, useRef } from "react";
-import Prism from "prismjs";
+import React, { useEffect } from 'react';
+import Prism from 'prismjs';
+import 'prismjs/components/prism-jsx';
+import 'prismjs/components/prism-tsx';
 import 'prismjs/components/prism-typescript';
-import 'prismjs/themes/prism-tomorrow.css';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/themes/prism-tomorrow.css'; // Using a dark theme that works well in both light/dark mode
 
 interface CodeBlockProps {
   code: string;
-  language?: string;
+  language: string;
 }
 
-const CodeBlock = ({ code, language = "tsx" }: CodeBlockProps) => {
-  const preRef = useRef<HTMLPreElement>(null);
-
+const CodeBlock = ({ code, language }: CodeBlockProps) => {
   useEffect(() => {
-    if (preRef.current) {
-      Prism.highlightElement(preRef.current);
-    }
-  }, [code, language]);
+    Prism.highlightAll();
+  }, [code]);
 
   return (
-    <div className="relative">
-      <pre
-        ref={preRef}
-        className="p-4 rounded-md bg-muted overflow-x-auto text-sm"
-        style={{ maxHeight: "500px" }}
-      >
+    <div className="rounded-md bg-muted overflow-hidden">
+      <pre className="p-4 overflow-x-auto">
         <code className={`language-${language}`}>{code}</code>
       </pre>
     </div>

@@ -1,140 +1,65 @@
 
 import React, { useState } from "react";
-import { Badge } from "@/components/ui/badge";
+import { DataGrid } from "@/lib/vysta-mocks";
 import { Button } from "@/components/ui/button";
-import { Check, X } from "lucide-react";
-import { DataGrid } from "@/lib/vysta-mocks"; // Import from our mocks
-
-// Define Product type
-type Product = {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  category: string;
-  inStock: boolean;
-};
+import { Badge } from "@/components/ui/badge";
+import DemoWrapper from "@/components/DemoWrapper";
 
 export function DataGridDemo() {
-  const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
-  // Sample data for the DataGrid
-  const products: Product[] = [
-    {
-      id: "1",
-      name: "Ergonomic Chair",
-      description: "Office chair with lumbar support",
-      price: 249.99,
-      category: "Furniture",
-      inStock: true
-    },
-    {
-      id: "2",
-      name: "Mechanical Keyboard",
-      description: "RGB backlit mechanical keyboard",
-      price: 129.99,
-      category: "Electronics",
-      inStock: true
-    },
-    {
-      id: "3",
-      name: "Ultra-wide Monitor",
-      description: "34-inch curved ultrawide display",
-      price: 499.99,
-      category: "Electronics",
-      inStock: false
-    },
-    {
-      id: "4",
-      name: "Standing Desk",
-      description: "Motorized adjustable height desk",
-      price: 399.99,
-      category: "Furniture",
-      inStock: true
-    },
-    {
-      id: "5",
-      name: "Wireless Mouse",
-      description: "Ergonomic wireless mouse",
-      price: 49.99,
-      category: "Electronics",
-      inStock: true
-    }
+  // Sample data
+  const data = [
+    { id: "1", name: "Product A", category: "Electronics", price: 499.99, stock: 25 },
+    { id: "2", name: "Product B", category: "Furniture", price: 199.50, stock: 12 },
+    { id: "3", name: "Product C", category: "Electronics", price: 299.99, stock: 8 },
+    { id: "4", name: "Product D", category: "Clothing", price: 59.99, stock: 42 },
+    { id: "5", name: "Product E", category: "Accessories", price: 29.99, stock: 65 },
   ];
 
-  return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="mb-2 text-3xl font-bold">DataGrid</h1>
-        <p className="text-lg text-muted-foreground">A feature-rich data grid component for displaying and interacting with tabular data.</p>
-      </div>
-      
-      <div>
-        <h2 className="mb-4 text-xl font-semibold">Basic Usage</h2>
-        
-        {selectedProducts.length > 0 && (
-          <div className="mb-4 flex flex-wrap gap-2">
-            {selectedProducts.map((product) => (
-              <Badge key={product.id} variant="outline">
-                {product.name}
-              </Badge>
-            ))}
-            
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => setSelectedProducts([])}
-            >
-              Clear Selection ({selectedProducts.length})
-            </Button>
-          </div>
-        )}
+  // Column definitions
+  const columns = [
+    { field: "name", headerName: "Name", width: 180 },
+    { field: "category", headerName: "Category", width: 150 },
+    { field: "price", headerName: "Price", width: 120, valueFormatter: (params: any) => `$${params.value}` },
+    { field: "stock", headerName: "Stock", width: 120 }
+  ];
 
-        <DataGrid<Product>
-          data={products}
-          uniqueIdProperty="id"
-          columns={[
-            {
-              id: "name",
-              header: "Product",
-              accessor: (item) => item.name,
-            },
-            {
-              id: "price",
-              header: "Price",
-              accessor: (item) => `$${item.price.toFixed(2)}`,
-            },
-            {
-              id: "category",
-              header: "Category",
-              accessor: (item) => (
-                <Badge variant="outline">{item.category}</Badge>
-              ),
-            },
-            {
-              id: "inStock",
-              header: "In Stock",
-              accessor: (item) => (
-                <div className="flex justify-center">
-                  {item.inStock ? (
-                    <Check className="h-5 w-5 text-green-500" />
-                  ) : (
-                    <X className="h-5 w-5 text-red-500" />
-                  )}
-                </div>
-              ),
-            },
-          ]}
-          selectionMode="multiple"
-          onSelectionChange={setSelectedProducts}
-          pagination={{
-            pageSize: 5,
-            totalRecords: products.length,
-          }}
-          searchable
-          sortable
-        />
+  const handleSelectionChange = (newSelection: string[]) => {
+    setSelectedItems(newSelection);
+  };
+
+  return (
+    <DemoWrapper title="DataGrid" description="Interactive data grid component">
+      <div className="space-y-6">
+        <div className="text-foreground">
+          <h3 className="text-xl font-medium">Product Inventory</h3>
+          <p className="text-muted-foreground mt-2">
+            Manage your product catalog with advanced filtering and sorting.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          {selectedItems.length > 0 && (
+            <div className="flex items-center gap-2">
+              <Badge variant="secondary">{selectedItems.length} selected</Badge>
+              <Button variant="outline" size="sm" onClick={() => setSelectedItems([])}>
+                Clear Selection
+              </Button>
+            </div>
+          )}
+
+          <div className="h-96 border rounded-md bg-background">
+            <DataGrid
+              rows={data}
+              columns={columns}
+              rowIdField="id"
+              selectedRows={selectedItems}
+              onSelectedRowsChange={handleSelectionChange}
+            />
+          </div>
+        </div>
       </div>
-    </div>
+    </DemoWrapper>
   );
 }
