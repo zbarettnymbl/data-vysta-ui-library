@@ -1,63 +1,55 @@
+
 import { useState } from "react";
 import { FilterPanel } from "@datavysta/vysta-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import DataType from "@datavysta/vysta-react/dist/components/Models/DataType";
+import { FilterDefinitionsByField } from "@datavysta/vysta-react/dist/components/Filter/FilterDefinitionsByField";
+import Condition from "@datavysta/vysta-react/dist/components/Models/Condition";
 import CodeBlock from "../CodeBlock";
 
-// Define type for filter definition
-type DataType = 'string' | 'numeric' | 'boolean' | 'date';
-
-interface FilterDefinition {
-  targetFieldName: string;
-  label: string;
-  dataType: DataType;
-}
-
-type FilterDefinitionsByField = FilterDefinition[];
-
-// Define type for Condition
-interface Condition {
-  field: string;
-  operator: string;
-  value: any;
-}
-
 export const FilterPanelDemo = () => {
+  // Use the correct Condition type from the library
   const [conditions, setConditions] = useState<Condition[]>([]);
 
-  // Define filter definitions
+  // Define filter definitions using the correct DataType enum
   const filterDefinitions: FilterDefinitionsByField = [
     {
       targetFieldName: "productName",
       label: "Product Name",
-      dataType: 'string'
+      dataType: DataType.String
     },
     {
       targetFieldName: "unitPrice",
       label: "Unit Price",
-      dataType: 'numeric'
+      dataType: DataType.Numeric
     },
     {
       targetFieldName: "unitsInStock",
       label: "Units In Stock",
-      dataType: 'numeric'
+      dataType: DataType.Numeric
     },
     {
       targetFieldName: "discontinued",
       label: "Discontinued",
-      dataType: 'boolean'
+      dataType: DataType.Boolean
     },
     {
       targetFieldName: "orderDate",
       label: "Order Date",
-      dataType: 'date'
+      dataType: DataType.Date
     }
   ];
 
+  // Fix the handler to properly handle the Condition type from the library
+  const handleApply = (newConditions: Condition[]) => {
+    setConditions(newConditions);
+  };
+
   const code = `import { FilterPanel } from '@datavysta/vysta-react';
-import DataType from '@datavysta/vysta-react/components/Models/DataType';
-import { FilterDefinitionsByField } from '@datavysta/vysta-react/components/Filter/FilterDefinitionsByField';
-import { Condition } from '@datavysta/vysta-client';
+import DataType from '@datavysta/vysta-react/dist/components/Models/DataType';
+import { FilterDefinitionsByField } from '@datavysta/vysta-react/dist/components/Filter/FilterDefinitionsByField';
+import Condition from '@datavysta/vysta-react/dist/components/Models/Condition';
 import { useState } from 'react';
 
 function FilterExample() {
@@ -86,10 +78,14 @@ function FilterExample() {
     }
   ];
 
+  const handleApply = (newConditions: Condition[]) => {
+    setConditions(newConditions);
+  };
+
   return (
     <FilterPanel 
       conditions={conditions}
-      onApply={setConditions}
+      onApply={handleApply}
       filterDefinitions={filterDefinitions}
     />
   );
@@ -122,7 +118,7 @@ function FilterExample() {
               <div className="border rounded-md p-4">
                 <FilterPanel 
                   conditions={conditions}
-                  onApply={setConditions}
+                  onApply={handleApply}
                   filterDefinitions={filterDefinitions}
                 />
               </div>
