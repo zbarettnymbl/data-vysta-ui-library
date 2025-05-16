@@ -28,7 +28,7 @@ export function FileUploadDemo() {
       description="Handle file uploads with Vysta File Service integration"
     >
       <div className="space-y-6">
-        <div className="text-foreground">
+        <div>
           <h3 className="text-xl font-medium">Upload Files</h3>
           <p className="text-muted-foreground mt-2">
             Upload files to Vysta's file service with support for drag and drop,

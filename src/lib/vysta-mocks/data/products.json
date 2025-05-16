@@ -1,0 +1,72 @@
+[
+  {
+    "id": "prod_1",
+    "name": "Product A",
+    "category": "Electronics",
+    "price": 499.99,
+    "stock": 25
+  },
+  {
+    "id": "prod_2",
+    "name": "Product B",
+    "category": "Furniture",
+    "price": 199.5,
+    "stock": 12
+  },
+  {
+    "id": "prod_3",
+    "name": "Product C",
+    "category": "Electronics",
+    "price": 299.99,
+    "stock": 8
+  },
+  {
+    "id": "prod_4",
+    "name": "Product D",
+    "category": "Clothing",
+    "price": 59.99,
+    "stock": 42
+  },
+  {
+    "id": "prod_5",
+    "name": "Product E",
+    "category": "Accessories",
+    "price": 29.99,
+    "stock": 65
+  },
+  {
+    "id": "prod_6",
+    "name": "Smartphone X",
+    "category": "Electronics",
+    "price": 899.99,
+    "stock": 18
+  },
+  {
+    "id": "prod_7",
+    "name": "Office Chair",
+    "category": "Furniture",
+    "price": 149.99,
+    "stock": 22
+  },
+  {
+    "id": "prod_8",
+    "name": "Wireless Headphones",
+    "category": "Electronics",
+    "price": 129.99,
+    "stock": 45
+  },
+  {
+    "id": "prod_9",
+    "name": "Cotton T-Shirt",
+    "category": "Clothing",
+    "price": 19.99,
+    "stock": 100
+  },
+  {
+    "id": "prod_10",
+    "name": "Leather Wallet",
+    "category": "Accessories",
+    "price": 39.99,
+    "stock": 55
+  }
+]

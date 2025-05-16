@@ -17,7 +17,7 @@ export function DemoWrapper({
   return (
     <div className="space-y-8">
       <div className="mb-4">
-        <h2 className="text-2xl font-semibold text-foreground">{title}</h2>
+        <h2 className="text-2xl font-semibold">{title}</h2>
         {description && (
           <p className="text-muted-foreground mt-1">{description}</p>
         )}

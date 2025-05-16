@@ -1,0 +1,72 @@
+[
+  {
+    "id": "user_1",
+    "name": "John Smith",
+    "email": "john.smith@example.com",
+    "status": "active",
+    "avatar": "https://i.pravatar.cc/100?u=1"
+  },
+  {
+    "id": "user_2",
+    "name": "Jane Doe",
+    "email": "jane.doe@example.com",
+    "status": "active",
+    "avatar": "https://i.pravatar.cc/100?u=2"
+  },
+  {
+    "id": "user_3",
+    "name": "Mike Johnson",
+    "email": "mike.johnson@example.com",
+    "status": "away",
+    "avatar": "https://i.pravatar.cc/100?u=3"
+  },
+  {
+    "id": "user_4",
+    "name": "Sarah Williams",
+    "email": "sarah.williams@example.com",
+    "status": "offline",
+    "avatar": "https://i.pravatar.cc/100?u=4"
+  },
+  {
+    "id": "user_5",
+    "name": "David Brown",
+    "email": "david.brown@example.com",
+    "status": "active",
+    "avatar": "https://i.pravatar.cc/100?u=5"
+  },
+  {
+    "id": "user_6",
+    "name": "Emily Davis",
+    "email": "emily.davis@example.com",
+    "status": "away",
+    "avatar": "https://i.pravatar.cc/100?u=6"
+  },
+  {
+    "id": "user_7",
+    "name": "Robert Wilson",
+    "email": "robert.wilson@example.com",
+    "status": "active",
+    "avatar": "https://i.pravatar.cc/100?u=7"
+  },
+  {
+    "id": "user_8",
+    "name": "Jessica Taylor",
+    "email": "jessica.taylor@example.com",
+    "status": "offline",
+    "avatar": "https://i.pravatar.cc/100?u=8"
+  },
+  {
+    "id": "user_9",
+    "name": "Thomas Anderson",
+    "email": "thomas.anderson@example.com",
+    "status": "active",
+    "avatar": "https://i.pravatar.cc/100?u=9"
+  },
+  {
+    "id": "user_10",
+    "name": "Jennifer Martinez",
+    "email": "jennifer.martinez@example.com",
+    "status": "away",
+    "avatar": "https://i.pravatar.cc/100?u=10"
+  }
+]

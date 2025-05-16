@@ -1,3 +1,4 @@
+import { loadMockData, MockDataOptions } from "../data";
 import { NetworkOptions } from "../types";
 import {
   OrderService,
@@ -36,6 +37,11 @@ export interface MockServiceFactoryOptions {
      */
     enableLogging?: boolean;
   };
+
+  /**
+   * Data loading options
+   */
+  dataOptions?: MockDataOptions;
 }
 
 /**
@@ -47,18 +53,21 @@ export class MockServiceFactory {
   private userService: UserService | null = null;
   private orderService: OrderService | null = null;
   private networkConfig: NetworkOptions;
+  private dataOptions: MockDataOptions;
 
   /**
    * Creates a new MockServiceFactory
    * @param options Factory configuration options
    */
   private constructor(options: MockServiceFactoryOptions = {}) {
-    const { networkConfig = {} } = options;
+    const { networkConfig = {}, dataOptions = {} } = options;
 
     this.networkConfig = {
       delay: networkConfig.defaultDelay ?? 300,
       errorRate: networkConfig.defaultErrorRate ?? 0,
     };
+
+    this.dataOptions = dataOptions;
   }
 
   /**
@@ -76,6 +85,17 @@ export class MockServiceFactory {
   }
 
   /**
+   * Loads mock data based on configured options
+   * @returns Loaded mock data
+   */
+  private loadData() {
+    const useStaticData =
+      import.meta.env.VITE_USE_STATIC_DATA === "true" ||
+      this.dataOptions.useStaticData;
+    return loadMockData({ ...this.dataOptions, useStaticData });
+  }
+
+  /**
    * Gets the ProductService instance
    * @param options ProductService configuration options
    * @returns ProductService instance
@@ -84,7 +104,10 @@ export class MockServiceFactory {
     options: ProductServiceOptions = {}
   ): ProductService {
     if (!this.productService) {
+      const mockData = this.loadData();
+
       this.productService = new ProductService({
+        initialData: mockData.products,
         networkOptions: {
           defaultDelay: this.networkConfig.delay,
           defaultErrorRate: this.networkConfig.errorRate,
@@ -102,7 +125,10 @@ export class MockServiceFactory {
    */
   public getUserService(options: UserServiceOptions = {}): UserService {
     if (!this.userService) {
+      const mockData = this.loadData();
+
       this.userService = new UserService({
+        initialData: mockData.users,
         networkOptions: {
           defaultDelay: this.networkConfig.delay,
           defaultErrorRate: this.networkConfig.errorRate,
@@ -120,7 +146,10 @@ export class MockServiceFactory {
    */
   public getOrderService(options: OrderServiceOptions = {}): OrderService {
     if (!this.orderService) {
+      const mockData = this.loadData();
+
       this.orderService = new OrderService({
+        initialData: mockData.orders,
         networkOptions: {
           defaultDelay: this.networkConfig.delay,
           defaultErrorRate: this.networkConfig.errorRate,
@@ -150,6 +179,16 @@ export class MockServiceFactory {
     if (this.orderService) {
       this.orderService.configureNetwork(options);
     }
+  }
+
+  /**
+   * Configures data loading options
+   * @param options Data loading options
+   */
+  public configureData(options: MockDataOptions): void {
+    this.dataOptions = { ...this.dataOptions, ...options };
+    // Reset services to force reload with new data options
+    this.resetServices();
   }
 
   /**

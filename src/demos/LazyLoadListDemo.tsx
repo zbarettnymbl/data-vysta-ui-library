@@ -49,7 +49,7 @@ export function LazyLoadListDemo() {
       description="Efficient loading of large lists"
     >
       <div className="space-y-6">
-        <div className="text-foreground">
+        <div>
           <h3 className="text-xl font-medium">User Directory</h3>
           <p className="text-muted-foreground mt-2">
             Browse through users with virtual scrolling for optimal performance.

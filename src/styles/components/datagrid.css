@@ -1,0 +1,91 @@
+/* DataGrid Component Styles */
+
+/* Light theme variables */
+:root {
+  --vysta-datagrid-bg: white;
+  --vysta-datagrid-text: var(--vysta-text-primary);
+  --vysta-datagrid-border: var(--vysta-border-color);
+  --vysta-datagrid-header-bg: var(--vysta-color-gray-1); 
+  --vysta-datagrid-row-hover: var(--vysta-color-gray-0);
+  --vysta-datagrid-row-selected: rgba(0, 123, 255, 0.1);
+  --vysta-datagrid-toolbar-bg: var(--vysta-bg-secondary);
+  --vysta-datagrid-badge-bg: #007bff;
+  --vysta-datagrid-badge-text: white;
+  --vysta-datagrid-title: var(--vysta-text-primary);
+  --vysta-datagrid-create-button-bg: var(--vysta-color-primary);
+  --vysta-datagrid-create-button-text: white;
+  --vysta-datagrid-delete-button-bg: var(--vysta-color-error);
+  --vysta-datagrid-delete-button-text: white;
+  --vysta-datagrid-download-button-bg: var(--vysta-color-accent);
+  --vysta-datagrid-download-button-text: white;
+}
+
+/* Dark theme variables */
+.dark {
+  --vysta-datagrid-bg: var(--vysta-bg-primary);
+  --vysta-datagrid-text: var(--vysta-text-primary);
+  --vysta-datagrid-border: var(--vysta-border-color);
+  --vysta-datagrid-header-bg: var(--vysta-color-gray-0);
+  --vysta-datagrid-row-hover: var(--vysta-color-gray-1);
+  --vysta-datagrid-row-selected: rgba(77, 171, 247, 0.15);
+  --vysta-datagrid-toolbar-bg: var(--vysta-bg-secondary);
+  --vysta-datagrid-badge-bg: #4dabf7;
+  --vysta-datagrid-badge-text: #1A1B1E;
+  --vysta-datagrid-title: var(--vysta-text-primary);
+  --vysta-datagrid-create-button-bg: var(--vysta-color-primary);
+  --vysta-datagrid-create-button-text: var(--vysta-bg-primary);
+  --vysta-datagrid-delete-button-bg: var(--vysta-color-error);
+  --vysta-datagrid-delete-button-text: white;
+  --vysta-datagrid-download-button-bg: var(--vysta-color-accent);
+  --vysta-datagrid-download-button-text: var(--vysta-bg-primary);
+}
+
+/* Dark mode specific styles */
+.dark .vysta-datagrid {
+  background-color: var(--mantine-color-dark-7);
+  color: var(--mantine-color-white);
+  border-color: var(--mantine-color-dark-4);
+}
+
+.dark .vysta-datagrid-header,
+.dark .vysta-datagrid-cell {
+  border-color: var(--mantine-color-dark-4);
+}
+
+.dark .DataGrid-module__toolbar__cuegZ {
+  background-color: var(--vysta-bg-secondary);
+  border-bottom-color: var(--vysta-border-color);
+}
+
+.dark .DataGrid-module__title__n-Reh {
+  color: var(--vysta-text-primary);
+}
+
+.dark .DataGrid-module__badge__F2Dq8 {
+  background-color: var(--vysta-color-gray-2);
+  color: var(--vysta-text-primary);
+}
+
+.dark .DataGrid-module__grid__LtRZB .ag-theme-alpine,
+.dark .DataGrid-module__grid__LtRZB .ag-theme-alpine-dark {
+  --ag-background-color: var(--vysta-bg-primary);
+  --ag-header-background-color: var(--vysta-bg-secondary);
+  --ag-odd-row-background-color: var(--vysta-bg-secondary);
+  --ag-header-foreground-color: var(--vysta-text-primary);
+  --ag-foreground-color: var(--vysta-text-primary);
+  --ag-border-color: var(--vysta-border-color);
+}
+
+/* Override for Vysta buttons in dark mode */
+.dark .DataGrid-module__downloadButton__KPmK-,
+.dark .DataGrid-module__createButton__XmZaB,
+.dark .DataGrid-module__deleteButton__wF-uI {
+  background-color: var(--vysta-color-primary);
+  color: var(--vysta-bg-primary);
+}
+
+.dark .DataGrid-module__downloadButton__KPmK-:hover,
+.dark .DataGrid-module__createButton__XmZaB:hover,
+.dark .DataGrid-module__deleteButton__wF-uI:hover {
+  background-color: var(--vysta-color-primary-hover);
+} 

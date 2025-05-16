@@ -1,0 +1,71 @@
+/* FileUpload Component Styles */
+
+/* Light theme variables */
+:root {
+  --vysta-fileupload-bg: white;
+  --vysta-fileupload-text: var(--vysta-text-primary);
+  --vysta-fileupload-border: var(--vysta-border-color);
+  --vysta-fileupload-dragdrop-bg: var(--vysta-color-gray-0);
+  --vysta-fileupload-dragdrop-text: var(--vysta-text-primary);
+  --vysta-fileupload-browse-text: var(--vysta-color-primary);
+  --vysta-fileupload-progress-bg: var(--vysta-color-primary);
+}
+
+/* Dark theme variables */
+.dark {
+  --vysta-fileupload-bg: var(--vysta-bg-primary);
+  --vysta-fileupload-text: var(--vysta-text-primary);
+  --vysta-fileupload-border: var(--vysta-border-color);
+  --vysta-fileupload-dragdrop-bg: var(--vysta-color-gray-0);
+  --vysta-fileupload-dragdrop-text: var(--vysta-text-primary);
+  --vysta-fileupload-browse-text: var(--vysta-color-primary);
+  --vysta-fileupload-progress-bg: var(--vysta-color-primary);
+}
+
+/* Dark mode specific styles */
+.dark .uppy-Root {
+  color: var(--vysta-fileupload-text);
+}
+
+.dark .uppy-DragDrop-container {
+  background-color: var(--vysta-fileupload-dragdrop-bg);
+  border-color: var(--vysta-fileupload-border);
+}
+
+.dark .uppy-DragDrop-label {
+  color: var(--vysta-fileupload-dragdrop-text);
+}
+
+.dark .uppy-DragDrop-browse {
+  color: var(--vysta-fileupload-browse-text);
+}
+
+.dark .uppy-DragDrop-note {
+  color: var(--vysta-text-secondary);
+}
+
+.dark .uppy-StatusBar {
+  background-color: var(--vysta-fileupload-bg);
+  color: var(--vysta-fileupload-text);
+}
+
+.dark .uppy-StatusBar-progress {
+  background-color: var(--vysta-fileupload-progress-bg);
+}
+
+.dark .uppy-Dashboard-Item-name {
+  color: var(--vysta-fileupload-text);
+}
+
+.dark .uppy-Dashboard-Item {
+  background-color: var(--vysta-bg-secondary);
+  border-color: var(--vysta-border-color);
+}
+
+.dark .uppy-Dashboard-Item-previewIcon {
+  color: var(--vysta-text-secondary);
+}
+
+.dark .uppy-Dashboard-Item-statusSize {
+  color: var(--vysta-text-secondary);
+} 

@@ -1,0 +1,66 @@
+/* Dark theme variables */
+.dark {
+  --background: 220 10% 8%;
+  --foreground: 0 0% 98%;
+
+  --card: 220 10% 10%;
+  --card-foreground: 0 0% 98%;
+
+  --popover: 220 10% 10%;
+  --popover-foreground: 0 0% 98%;
+
+  --primary: 220 10% 70%;
+  --primary-foreground: 220 10% 10%;
+
+  --secondary: 220 10% 15%;
+  --secondary-foreground: 0 0% 98%;
+
+  --muted: 220 10% 15%;
+  --muted-foreground: 215 10% 70%;
+
+  --accent: 220 10% 20%;
+  --accent-foreground: 0 0% 98%;
+
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border: 220 10% 18%;
+  --input: 220 10% 18%;
+  --ring: 220 10% 70%;
+  
+  --sidebar-background: 220 10% 12%;
+  --sidebar-foreground: 0 0% 98%;
+  --sidebar-primary: 220 10% 70%;
+  --sidebar-primary-foreground: 220 10% 10%;
+  --sidebar-accent: 220 10% 20%;
+  --sidebar-accent-foreground: 0 0% 98%;
+  --sidebar-border: 220 10% 16%;
+  --sidebar-ring: 220 10% 70%;
+  
+  /* Vysta custom variables (dark mode) */
+  --vysta-color-gray-0: #25262b;
+  --vysta-color-gray-1: #2C2E33;
+  --vysta-color-gray-2: #373A40;
+  --vysta-color-gray-3: #5c5f66;
+  --vysta-color-gray-4: #737680;
+  --vysta-color-gray-5: #909296;
+  --vysta-color-gray-6: #A6A7AB;
+  --vysta-color-gray-7: #C1C2C5;
+  --vysta-color-gray-8: #D4D4D8;
+  --vysta-color-gray-9: #E6E6E9;
+  --vysta-color-primary: #4dabf7;
+  --vysta-color-primary-hover: #339af0;
+  --vysta-color-accent: #51CF66;
+  --vysta-color-accent-hover: #40c057;
+  --vysta-color-accent2: #5C7CFA;
+  --vysta-color-accent2-hover: #4c6ef5;
+  --vysta-bg-primary: #1A1B1E;
+  --vysta-bg-secondary: var(--vysta-color-gray-0);
+  --vysta-bg-disabled: var(--vysta-color-gray-1);
+  --vysta-color-error: #ff6b6b;
+  --vysta-color-error-hover: #fa5252;
+  --vysta-color-success: #69db7c;
+  --vysta-color-success-hover: #51cf66;
+  --vysta-color-warning: #fcc419;
+  --vysta-color-warning-hover: #fab005;
+} 

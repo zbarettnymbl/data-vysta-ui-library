@@ -1,0 +1,13 @@
+/* Common theme variables used across light and dark modes */
+
+:root {
+  --radius: 0.5rem;
+  
+  /* Vysta custom base variables */
+  --vysta-text-primary: var(--vysta-color-gray-9);
+  --vysta-text-secondary: var(--vysta-color-gray-7);
+  --vysta-text-disabled: var(--vysta-color-gray-5);
+  --vysta-border-color: var(--vysta-color-gray-3);
+  --vysta-border-color-hover: var(--vysta-color-gray-4);
+  --vysta-border-color-focus: var(--vysta-color-primary);
+} 

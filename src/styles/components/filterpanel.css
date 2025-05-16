@@ -1,0 +1,49 @@
+/* FilterPanel Component Styles */
+
+/* Light theme variables */
+:root {
+  --vysta-filterpanel-bg: white;
+  --vysta-filterpanel-text: var(--vysta-text-primary);
+  --vysta-filterpanel-border: var(--vysta-border-color);
+  --vysta-filterpanel-title: var(--vysta-text-primary);
+  --vysta-filterpanel-input-bg: white;
+  --vysta-filterpanel-input-text: var(--vysta-text-primary);
+  --vysta-filterpanel-input-border: var(--vysta-border-color);
+  --vysta-filterpanel-button-bg: var(--vysta-color-primary);
+  --vysta-filterpanel-button-text: white;
+}
+
+/* Dark theme variables */
+.dark {
+  --vysta-filterpanel-bg: var(--vysta-bg-primary);
+  --vysta-filterpanel-text: var(--vysta-text-primary);
+  --vysta-filterpanel-border: var(--vysta-border-color);
+  --vysta-filterpanel-title: var(--vysta-text-primary);
+  --vysta-filterpanel-input-bg: var(--vysta-bg-primary);
+  --vysta-filterpanel-input-text: var(--vysta-text-primary);
+  --vysta-filterpanel-input-border: var(--vysta-border-color);
+  --vysta-filterpanel-button-bg: var(--vysta-color-primary);
+  --vysta-filterpanel-button-text: var(--vysta-bg-primary);
+}
+
+/* Dark mode specific styles */
+.dark .filter-panel {
+  background-color: var(--vysta-bg-primary);
+  border-color: var(--vysta-border-color);
+}
+
+.dark .filter-panel select,
+.dark .filter-panel input {
+  background-color: var(--vysta-bg-primary);
+  border-color: var(--vysta-border-color);
+  color: var(--vysta-text-primary);
+}
+
+.dark .filter-title {
+  color: var(--vysta-text-primary);
+}
+
+.dark .filter-container:empty+.filter-footer .filter-button {
+  background-color: var(--vysta-color-primary);
+  color: var(--vysta-text-primary);
+} 

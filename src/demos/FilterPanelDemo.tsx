@@ -85,7 +85,7 @@ function App() {
       description="Powerful data filtering component"
     >
       <div className="space-y-6">
-        <div className="text-foreground">
+        <div>
           <h3 className="text-xl font-medium">Product Filter</h3>
           <p className="text-muted-foreground mt-2">
             Filter products by various criteria including name, price, stock and

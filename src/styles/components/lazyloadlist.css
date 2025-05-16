@@ -1,0 +1,39 @@
+/* LazyLoadList Component Styles */
+
+/* Light theme variables */
+:root {
+  --vysta-lazyloadlist-bg: white;
+  --vysta-lazyloadlist-text: var(--vysta-text-primary);
+  --vysta-lazyloadlist-border: var(--vysta-border-color);
+  --vysta-lazyloadlist-option-bg: white;
+  --vysta-lazyloadlist-option-hover: var(--vysta-color-gray-1);
+  --vysta-lazyloadlist-option-selected: rgba(0, 123, 255, 0.1);
+  --vysta-lazyloadlist-input-bg: white;
+  --vysta-lazyloadlist-input-text: var(--vysta-text-primary);
+  --vysta-lazyloadlist-input-border: var(--vysta-border-color);
+}
+
+/* Dark theme variables */
+.dark {
+  --vysta-lazyloadlist-bg: var(--vysta-bg-primary);
+  --vysta-lazyloadlist-text: var(--vysta-text-primary);
+  --vysta-lazyloadlist-border: var(--vysta-border-color);
+  --vysta-lazyloadlist-option-bg: var(--vysta-bg-primary);
+  --vysta-lazyloadlist-option-hover: var(--vysta-color-gray-1);
+  --vysta-lazyloadlist-option-selected: rgba(77, 171, 247, 0.15);
+  --vysta-lazyloadlist-input-bg: var(--vysta-bg-primary);
+  --vysta-lazyloadlist-input-text: var(--vysta-text-primary);
+  --vysta-lazyloadlist-input-border: var(--vysta-border-color);
+}
+
+/* Dark mode specific styles */
+.dark .LazyLoadList-module__option__qOqT8 {
+  background-color: var(--vysta-bg-primary);
+  color: var(--vysta-text-primary);
+}
+
+.dark .LazyLoadList-module__input__Mz3wS {
+  background-color: var(--vysta-bg-primary);
+  border-color: var(--vysta-border-color);
+  color: var(--vysta-text-primary);
+} 
