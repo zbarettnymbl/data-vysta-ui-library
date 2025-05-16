@@ -1,4 +1,4 @@
-import { createTheme } from "@mantine/core";
+import { MantineColorsTuple, createTheme } from "@mantine/core";
 
 // Convert HSL to hex for Mantine
 function hslToHex(h: number, s: number, l: number) {
@@ -60,24 +60,28 @@ const darkColors = {
   ring: hslToHex(220, 10, 70),
 };
 
+// Define proper dark palette values (0=lightest, 9=darkest)
+const mantineDarkPalette: MantineColorsTuple = [
+  "#C1C2C5", // 0 - lightest
+  "#A6A7AB",
+  "#909296",
+  "#5c5f66",
+  "#373A40",
+  "#2C2E33",
+  "#25262b",
+  "#1A1B1E",
+  "#141517",
+  "#101113", // 9 - darkest
+] as MantineColorsTuple;
+
 // Create light theme
 export const lightTheme = createTheme({
   fontFamily:
     'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
   defaultRadius: "md",
   colors: {
-    dark: [
-      lightColors.background,
-      lightColors.card,
-      lightColors.secondary,
-      lightColors.muted,
-      lightColors.accent,
-      lightColors.foreground,
-      lightColors.mutedForeground,
-      lightColors.cardForeground,
-      lightColors.popoverForeground,
-      "#000000",
-    ],
+    // Define proper dark palette for the light theme
+    dark: mantineDarkPalette,
     gray: [
       "#f8f9fa",
       "#f1f3f5",
@@ -89,7 +93,7 @@ export const lightTheme = createTheme({
       "#495057",
       "#343a40",
       "#212529",
-    ],
+    ] as MantineColorsTuple,
     primary: [
       hslToHex(220, 10, 95),
       hslToHex(220, 10, 90),
@@ -101,7 +105,7 @@ export const lightTheme = createTheme({
       hslToHex(220, 10, 30),
       hslToHex(220, 10, 20),
       hslToHex(220, 10, 10),
-    ],
+    ] as MantineColorsTuple,
     red: [
       "#fff5f5",
       "#ffe3e3",
@@ -113,7 +117,7 @@ export const lightTheme = createTheme({
       "#f03e3e",
       "#e03131",
       "#c92a2a",
-    ],
+    ] as MantineColorsTuple,
   },
 
   components: {
@@ -149,18 +153,8 @@ export const darkTheme = createTheme({
   ...lightTheme,
   colors: {
     ...lightTheme.colors,
-    dark: [
-      darkColors.background,
-      darkColors.card,
-      darkColors.secondary,
-      darkColors.muted,
-      darkColors.accent,
-      darkColors.foreground,
-      darkColors.mutedForeground,
-      darkColors.cardForeground,
-      darkColors.popoverForeground,
-      "#ffffff",
-    ],
+    // Keep the dark colors the same - these are already dark
+    dark: mantineDarkPalette,
     primary: [
       hslToHex(220, 10, 95),
       hslToHex(220, 10, 90),
@@ -172,7 +166,7 @@ export const darkTheme = createTheme({
       hslToHex(220, 10, 30),
       hslToHex(220, 10, 20),
       hslToHex(220, 10, 10),
-    ],
+    ] as MantineColorsTuple,
   },
 });
 

@@ -12,6 +12,16 @@ export function FileUploadDemo() {
     console.log(`File uploaded successfully: ${fileName} with ID: ${fileId}`);
   };
 
+  // Custom styles using CSS variables
+  const customStyles = {
+    container: {
+      backgroundColor: "var(--vysta-fileupload-bg)",
+      border: "1px solid var(--vysta-fileupload-border)",
+      padding: "1rem",
+      borderRadius: "0.375rem",
+    },
+  };
+
   return (
     <DemoWrapper
       title="File Upload"
@@ -28,18 +38,20 @@ export function FileUploadDemo() {
 
         <div className="space-y-4">
           {fileService ? (
-            <FileUpload
-              fileService={fileService as any} // Type assertion to bypass TypeScript error temporarily
-              allowedFileTypes={[
-                ".jpg",
-                ".png",
-                ".pdf",
-                "image/*",
-                "application/pdf",
-              ]}
-              autoProceed={false}
-              onUploadSuccess={handleUploadSuccess}
-            />
+            <div style={customStyles.container}>
+              <FileUpload
+                fileService={fileService as any} // Type assertion to bypass TypeScript error temporarily
+                allowedFileTypes={[
+                  ".jpg",
+                  ".png",
+                  ".pdf",
+                  "image/*",
+                  "application/pdf",
+                ]}
+                autoProceed={false}
+                onUploadSuccess={handleUploadSuccess}
+              />
+            </div>
           ) : (
             <div className="p-4 border border-yellow-200 bg-yellow-50 text-yellow-800 rounded-md">
               <p>

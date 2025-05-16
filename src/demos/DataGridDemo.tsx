@@ -1,4 +1,5 @@
 import DemoWrapper from "@/components/DemoWrapper";
+import { useVystaStyles } from "@/hooks/use-vysta-styles";
 import { DataGrid } from "@datavysta/vysta-react";
 import { Badge, Box, Button, Group, Text, Title } from "@mantine/core";
 import { useMemo, useState } from "react";
@@ -35,6 +36,8 @@ interface IReadonlyDataService<TEntity, TQuery> {
 
 export function DataGridDemo() {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  // Get our theme-aware styles
+  const { dataGridStyles } = useVystaStyles();
 
   // Get a ProductService instance from the factory
   const productService = useMemo(() => {
@@ -124,6 +127,8 @@ export function DataGridDemo() {
               onDataLoaded={(_, data) => {
                 console.log(`Loaded ${data.length} products`);
               }}
+              // Apply our theme-aware styles here
+              styles={dataGridStyles}
             />
           </Box>
         </Box>

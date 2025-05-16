@@ -1,28 +1,62 @@
 import { useTheme } from "@/hooks/use-theme";
-import { Group, Switch, useMantineTheme } from "@mantine/core";
-import { Moon, Sun } from "lucide-react";
+import { Button, Menu } from "@mantine/core";
+import { Check, Monitor, Moon, Sun } from "lucide-react";
+import { useState } from "react";
+
+type Theme = "dark" | "light" | "system";
 
 export default function ThemeSwitcher() {
   const { theme, setTheme } = useTheme();
-  const mantineTheme = useMantineTheme();
+  const [opened, setOpened] = useState(false);
+
+  // Define theme options
+  const themeOptions: { value: Theme; label: string; icon: JSX.Element }[] = [
+    { value: "dark", label: "Dark", icon: <Moon size={16} /> },
+    { value: "light", label: "Light", icon: <Sun size={16} /> },
+    { value: "system", label: "System", icon: <Monitor size={16} /> },
+  ];
+
+  // Get the current theme icon
+  const getCurrentThemeIcon = () => {
+    const currentTheme = themeOptions.find((option) => option.value === theme);
+    return currentTheme ? currentTheme.icon : <Sun size={16} />;
+  };
 
   return (
-    <Group justify="center">
-      <Switch
-        size="md"
-        thumbIcon={
-          theme === "dark" ? (
-            <Sun size={12} color={mantineTheme.colors.yellow[4]} />
-          ) : (
-            <Moon size={12} color={mantineTheme.colors.blue[6]} />
-          )
-        }
-        checked={theme === "dark"}
-        onChange={(event) =>
-          setTheme(event.currentTarget.checked ? "dark" : "light")
-        }
-        label={theme === "dark" ? "Light Mode" : "Dark Mode"}
-      />
-    </Group>
+    <Menu
+      opened={opened}
+      onChange={setOpened}
+      width={200}
+      position="top-start"
+      shadow="md"
+    >
+      <Menu.Target>
+        <Button variant="subtle" size="sm" leftSection={getCurrentThemeIcon()}>
+          {theme === "system" ? "System" : theme === "dark" ? "Dark" : "Light"}
+        </Button>
+      </Menu.Target>
+
+      <Menu.Dropdown>
+        {themeOptions.map((option) => (
+          <Menu.Item
+            key={option.value}
+            leftSection={option.icon}
+            rightSection={theme === option.value ? <Check size={16} /> : null}
+            onClick={() => {
+              setTheme(option.value);
+              setOpened(false);
+            }}
+            style={{
+              backgroundColor:
+                theme === option.value ? "var(--accent)" : undefined,
+              color:
+                theme === option.value ? "var(--accent-foreground)" : undefined,
+            }}
+          >
+            {option.label}
+          </Menu.Item>
+        ))}
+      </Menu.Dropdown>
+    </Menu>
   );
 }

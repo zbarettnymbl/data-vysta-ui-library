@@ -58,15 +58,18 @@ const Components = () => {
   return (
     <SidebarProvider
       defaultOpen={true}
-      header={<Logo />}
+      header={
+        <Box className="flex items-center gap-2">
+          <Logo />
+          <Text ml={10} fw={500}>
+            Data Vysta React Components
+          </Text>
+        </Box>
+      }
       footer={<ThemeSwitcher />}
       menuItems={menuItems}
     >
       <Box>
-        <Box className="flex items-center border-b p-4">
-          <Text fw={500}>Data Vysta React Components</Text>
-        </Box>
-
         <Box p="md">
           {activeComponent === "datagrid" && <DataGridDemo />}
           {activeComponent === "filterpanel" && <FilterPanelDemo />}

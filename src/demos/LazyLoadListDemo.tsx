@@ -33,6 +33,16 @@ export function LazyLoadListDemo() {
     }
   };
 
+  // Custom inline styles using CSS variables
+  const customStyles = {
+    container: {
+      backgroundColor: "var(--vysta-lazyloadlist-bg)",
+      border: "1px solid var(--vysta-lazyloadlist-border)",
+      color: "var(--vysta-lazyloadlist-text)",
+      height: "100%",
+    },
+  };
+
   return (
     <DemoWrapper
       title="LazyLoadList"
@@ -46,7 +56,10 @@ export function LazyLoadListDemo() {
           </p>
         </div>
 
-        <div className="border rounded-md h-96 overflow-hidden bg-background">
+        <div
+          className="border rounded-md h-96 overflow-hidden"
+          style={customStyles.container}
+        >
           <LazyLoadList<User>
             repository={userService}
             displayColumn="name"

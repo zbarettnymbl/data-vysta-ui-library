@@ -26,6 +26,8 @@ type SidebarMenuItemsProps = {
 };
 
 function SidebarMenuItems({ items }: SidebarMenuItemsProps) {
+  const { colorScheme } = useMantineColorScheme();
+
   return (
     <>
       {items.map((item, index) => (
@@ -37,7 +39,12 @@ function SidebarMenuItems({ items }: SidebarMenuItemsProps) {
           onClick={item.onClick}
           childrenOffset={28}
           defaultOpened={false}
-          variant="light"
+          variant={colorScheme === "dark" ? "filled" : "light"}
+          styles={{
+            root: {
+              borderRadius: "0.375rem",
+            },
+          }}
         >
           {item.children &&
             item.children.map((child, childIndex) => (
@@ -47,6 +54,7 @@ function SidebarMenuItems({ items }: SidebarMenuItemsProps) {
                 leftSection={child.icon}
                 active={child.active}
                 onClick={child.onClick}
+                variant={colorScheme === "dark" ? "filled" : "light"}
               />
             ))}
         </NavLink>
@@ -88,6 +96,8 @@ export function SidebarProvider({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [toggle]);
 
+  const isDark = colorScheme === "dark";
+
   return (
     <AppShell
       header={{ height: 60 }}
@@ -97,6 +107,33 @@ export function SidebarProvider({
         collapsed: { mobile: !mobileOpened, desktop: !opened },
       }}
       padding="md"
+      styles={{
+        header: {
+          backgroundColor: isDark
+            ? "var(--mantine-color-dark-7)"
+            : "var(--mantine-color-white)",
+          borderBottom: `1px solid ${
+            isDark
+              ? "var(--mantine-color-dark-4)"
+              : "var(--mantine-color-gray-2)"
+          }`,
+        },
+        navbar: {
+          backgroundColor: isDark
+            ? "var(--mantine-color-dark-7)"
+            : "var(--mantine-color-white)",
+          borderRight: `1px solid ${
+            isDark
+              ? "var(--mantine-color-dark-4)"
+              : "var(--mantine-color-gray-2)"
+          }`,
+        },
+        main: {
+          backgroundColor: isDark
+            ? "var(--mantine-color-dark-8)"
+            : "var(--mantine-color-gray-0)",
+        },
+      }}
     >
       <AppShell.Header>
         <Group h="100%" px="md">

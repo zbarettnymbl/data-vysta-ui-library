@@ -13,10 +13,10 @@ const queryClient = new QueryClient();
 
 // Wrapper component to use the theme hook
 const ThemeWrapper = ({ children }: { children: React.ReactNode }) => {
-  const { mantineTheme } = useTheme();
+  const { mantineTheme, colorScheme, setTheme } = useTheme();
 
   return (
-    <MantineProvider theme={mantineTheme}>
+    <MantineProvider theme={mantineTheme} forceColorScheme={colorScheme}>
       <VystaMantineComponentProvider>{children}</VystaMantineComponentProvider>
     </MantineProvider>
   );
