@@ -62,7 +62,7 @@ const Components = () => {
         <Box className="flex items-center gap-2">
           <Logo />
           <Text ml={10} fw={500}>
-            Data Vysta React Components
+            Data Vysta UI Library
           </Text>
         </Box>
       }
