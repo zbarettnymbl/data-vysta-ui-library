@@ -1,12 +1,15 @@
 import DemoWrapper from "@/components/DemoWrapper";
 import { useVystaClient } from "@/lib/vysta-mocks";
 import { FileUpload } from "@datavysta/vysta-react";
+import type { VystaFileService } from "@datavysta/vysta-client";
 
 export function FileUploadDemo() {
   const { services } = useVystaClient();
 
   // Mock file service from the services available in the client
-  const fileService = services.find((service) => service.id === "4");
+  const fileService = services.find(
+    (service) => service.id === "4"
+  ) as VystaFileService | undefined;
 
   const handleUploadSuccess = (fileId: string, fileName: string) => {
     console.log(`File uploaded successfully: ${fileName} with ID: ${fileId}`);
@@ -40,7 +43,7 @@ export function FileUploadDemo() {
           {fileService ? (
             <div style={customStyles.container}>
               <FileUpload
-                fileService={fileService as any} // Type assertion to bypass TypeScript error temporarily
+                fileService={fileService}
                 allowedFileTypes={[
                   ".jpg",
                   ".png",
