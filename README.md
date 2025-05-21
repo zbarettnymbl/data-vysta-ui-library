@@ -48,7 +48,7 @@ There are several ways to work with this codebase:
 git clone <YOUR_GIT_URL>
 
 # Navigate to the project directory
-cd vysta-ui-library
+cd data-vysta-ui-library
 
 # Install dependencies
 npm install

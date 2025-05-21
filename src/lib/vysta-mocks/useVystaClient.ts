@@ -30,7 +30,7 @@ const mockFileService = {
   getTusXhrOptions: () => ({}),
   
   // Required methods
-  uploadFile: async (file: File, options?: any) => {
+  uploadFile: async (file: File, options?: Record<string, unknown>) => {
     return new Promise((resolve) => {
       // Simulate network delay
       setTimeout(() => {
